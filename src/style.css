@@ -1,0 +1,189 @@
+body {
+    background-color: #fff;
+}
+
+h1 {
+    color: #9caf98;
+    font-family: Helvetica;
+    font-weight: bold;
+    margin: .1rem;
+}
+
+div.layout {
+    float: left;
+    padding: .2rem;
+}
+
+div.footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    width: 100%;
+    display: block;
+    clear: both;
+    font-size: 80%;
+}
+
+textarea {
+    min-width: 26rem;
+    height: 30rem;
+    font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+
+table {
+    min-width: 20rem;
+    width: 100%;
+    color: #0a246a;
+    font-size: 80%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+}
+
+table td + td { border-left:2px solid rgba(255, 255, 255, 0.5); }
+
+
+thead tr {
+    background-color: #ededed;
+}
+
+
+tbody td {
+    text-align: left;
+    padding-right: 8px;
+    border: 0px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e4f7d9;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #c6f0bd;
+}
+
+
+textarea#notes {
+    color: rgba(0, 0, 0, 0.6);
+    font-family: monospace;
+}
+
+.hwt-backdrop {
+    font-family: monospace;
+}
+
+mark {
+    border-radius: 4px;
+    color: unset !important;
+}
+
+mark.fleb-reserved-word {
+    background-color: #fee;
+    color: red !important;
+}
+
+mark.fleb-theircall {
+    background-color: #cff;
+    color: blue !important;
+}
+
+/* No highlight inside comment block */
+mark.fleb-commentline > mark {
+    background-color: transparent;
+    color: black !important;
+}
+mark.fleb-grid > mark {
+    background-color: transparent;
+    color: black !important;
+}
+
+
+
+
+mark.fleb-time {
+    background-color: #c8f1b2;
+    color: green !important;
+}
+
+mark.fleb-rst {
+    background-color: #c8c8ff;
+    color: black !important;
+}
+
+mark.fleb-wwff {
+    background-color: #e6d0a8;
+    color: brown !important;
+}
+
+mark.fleb-sota {
+    background-color: #cca7d9;
+    color: #ad16b9 !important;
+}
+
+mark.fleb-freq {
+    background-color: yellow;
+    color: black !important;
+}
+
+mark.fleb-commentline {
+    background-color: lightblue;
+    color: black !important;
+}
+
+mark.fleb-qsocomment {
+    background-color: #e7e7e7;
+    color: black !important;
+}
+
+mark.fleb-qslmsg {
+    background-color: #fda6a6;
+    color: black !important;
+}
+
+mark.fleb-name {
+    background-color: #dba7ff;
+    color: black !important;
+}
+
+mark.fleb-grid {
+    background-color: #62fab7;
+    color: black !important;
+}
+
+mark.fleb-date {
+    background-color: #b4d2ff;
+    color: #19468d !important;
+}
+
+
+.settings {
+    background-color: #ddd;
+
+}
+
+.adif-preview {
+    background-color: #EAFFFF;
+    color: #4b718a;
+    font-size: 80%;
+    min-width: 800px;
+    font-family: Courier;
+    display: inline-block;
+    white-space: break-spaces;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+      margin: 0px;
+      padding: 0px;
+  }
+
+    div.layout {
+    float: left;
+    padding: 0;
+}
+
+    textarea {
+        margin: 0px;
+        padding: 0px;
+    width: 100%;
+    }
+}

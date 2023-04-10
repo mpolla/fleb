@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <head>
+    <title>FLEB - Fast Log Entry in the Browser</title>
+  </head>
+  
+<body>
+
+<div class="layout">
+  <label for="notes"></label>
+  <textarea id="notes" class="string-example hwt-input hwt-content" spellcheck="false" onKeyUp="uppa();">
+mycall oh2cme/p
+operator oh2cme
+mywwff ohff-0001
+
+mygrid JO22af
+
+date 2016-06-30
+
+80m cw 2335 ra3ax
+dj2mx
+40 dk4rm
+2 oh7ms 449 559
+8 rn6bn 3 6
+51 dl5mo < strong signal > #JO50
+dl7on
+3 dj2bw
+
+{ Times can be interpolated between two given times, e.g. between 0014 and 0038 in the following example }
+day ++ 40m ssb
+0014 g3fpq
+     ra6au
+     oh2pj
+     oh3es
+     sm5wp
+     sp8brq
+  38 ua3tcj
+</textarea>
+</div>
+
+<div class="layout">
+    <input type="submit" onClick="reset();" value="🗑 Clear" />
+    <input type="submit" onClick="esi();" value="Preview ADIF" />
+    <input type="submit" onClick="lataa();" value="⭳ Download ADIF" />
+</div>
+
+<div class="layout">
+  <table id="qsolist"></table>
+</div>
+
+<!--
+<div class="layout settings">
+  <form>
+    <fieldset>
+      <legend>Show columns</legend>
+    <label for="asdf1">Labeli asdf1</label><input id="asdf1" type="checkbox" value="b" />
+      <label for="asdf2">Labeli asdf2</label><input id="asdf2" type="checkbox" value="b" />
+      <label for="asdf3">Labeli asdf3</label><input id="asdf3" type="checkbox" value="b" />
+      <label for="asdf4">Labeli asdf4</label><input id="asdf4" type="checkbox" value="b" />
+    </fieldset>
+  </form>
+</div>
+-->
+
+<div id="app"></div>
+
+<div class="footer">
+See also: Fast Log Entry (FLE) <a href="https://df3cb.com/fle/">https://df3cb.com/fle/</a>
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
