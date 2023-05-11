@@ -1,0 +1,13 @@
+# Header 
+mycall oh2cme/p
+operator oh2cme
+mypota oh-0012
+
+# Log 
+date 2023-06-02
+
+10m ssb
+
+1345 n0aw pota k-0003
+48 n3bg pota k-0019 @Jens
+

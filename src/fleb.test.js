@@ -1,5 +1,12 @@
-const { sanoHei, parseName, parseGrid, parseComment, parseQslmessage, updateQsoList, printAdif, parseCall, parseMode, detectband } = require("./fleb.js");
-const {makeJsonArray, parseSotaref} = require("./fleb");
+const { parseName, parseGrid, parseComment, parseQslmessage, printAdif, parseCall, parseTime, parseMode, detectband, parseSTX, parseSRX } = require("./fleb.js");
+const {makeJsonArray, parseSotaref, parsePotaref} = require("./fleb");
+
+
+const FLE_ADIF_HEADER = "ADIF Export for Fast Log Entry by DF3CB";
+const FLEB_ADIF_HEADER = "ADIF Export for Fast Log Entry in-Browser by OH2CME";
+
+const FLE_ID = "<PROGRAMID:3>FLE";
+const FLEB_ID = "<PROGRAMID:4>FLEB";
 
 var fs = require("fs");
 
@@ -33,6 +40,18 @@ test('Parse call', () => {
   expect(parseCall("OH2F1S")).toBe("OH2F1S")
 })
 
+test('Parse time', () => {
+  // Line beginning with valid hhmm
+  expect(parseTime("1233 sm1abc")).toStrictEqual(["12", "33"]);
+  // No time specified
+  expect(parseTime("la2abc ,3 .22")).toStrictEqual(null);
+  // Line beginning with valid mm  or m
+  expect(parseTime("42 sm3abc")).toStrictEqual(["12", "42"]);
+  // Invalid hhmm data
+  expect(parseTime("9931 sm5abc")).toStrictEqual(null);
+  expect(parseTime("331 sm5abc")).toStrictEqual(null);
+});
+
 test('Parse name', () => {
   expect(parseName("33 oh2cme @Matti #KP20")).toBe("Matti");
   expect(parseName("33 oh2cme #KP20")).toBe(null);
@@ -48,8 +67,8 @@ test('Parse grid', () => {
 
 
 test('Parse comment', () => {
-  expect(parseComment("33 oh2cme @Matti <comment> #KP20")).toBe("comment");
-  expect(parseComment("33 oh2cme @Matti < comment > #KP20")).toBe("comment");
+  expect(parseComment("33 oh2cme @Matti {comment} #KP20")).toBe("comment");
+  expect(parseComment("33 oh2cme @Matti < comment > #KP20")).toBe(null);
   expect(parseComment("33 oh2cme @Matti #KP20")).toBe(null);
 });
 
@@ -63,7 +82,7 @@ test('Parse mode', () => {
 });
 
 test('Parse QSL message', () => {
-  expect(parseQslmessage("33 oh2cme @Matti [jotain] #KP20")).toBe("jotain");
+  expect(parseQslmessage("33 oh2cme @Matti <jotain> #KP20")).toBe("jotain");
   expect(parseQslmessage("33 oh2cme @Matti #KP20")).toBe(null);
 });
 
@@ -71,33 +90,73 @@ test('Parse SOTA reference', () => {
   expect(parseSotaref("2203 sm2bb SM/NB-011")).toBe("SM/NB-011")
 })
 
+test('Parse POTA reference', () => {
+  expect(parsePotaref("1345 n0aw pota k-0003")).toBe("K-0003");
+  expect(parsePotaref("sm1abc @Mats pota k-0003       ")).toBe("K-0003");
+  expect(parsePotaref("la3bcd pota DA-0147 <foo> {bar}")).toBe("DA-0147");
+  expect(parsePotaref("1345 n0aw pota k-003")).toBe(null);
+})
+
+// https://df3cb.com/fle/documentation/#band
+// One decimal point (dot) is required in FLE to be identified as frequency. Frequencies are exported with three places after the decimal point.
 test('Detect band for frequency', () => {
   expect(detectband("14.044")).toBe("20m");
   expect(detectband("3.699")).toBe("80m");
   expect(detectband("145.500")).toBe("2m");
+  expect(detectband(".781")).toBe(null);
 });
 
+test('Parse contest serial numbers', () => {
+  expect(parseSTX("1856 ku1t ,337 .781")).toBe("337")
+  expect(parseSRX("1856 ku1t ,337 .781")).toBe("781")
+})
 
-test('Parse ADIF export: basic.txt', () => {
+
+test('ADIF export: basic.txt', () => {
   let txt = fs.readFileSync("./src/test/basic.txt").toString('utf-8');
   let adi = fs.readFileSync("./src/test/basic.adi").toString('utf-8')
-      .replace("ADIF Export for Fast Log Entry by DF3CB", "ADIF Export for Fast Log Entry in-Browser by OH2CME")
-      .replace('<PROGRAMID:3>FLE', '<PROGRAMID:4>FLEB');
-  expect(printAdif(makeJsonArray(txt))).toBe(adi);
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
 })
 
-test('Parse ADIF export: sample_wwff_sota.txt', () => {
+test('ADIF export: sample_wwff_sota.txt', () => {
   let txt = fs.readFileSync("./src/test/sample_wwff_sota.txt").toString('utf-8');
   let adi = fs.readFileSync("./src/test/sample_wwff_sota.adi").toString('utf-8')
-      .replace("ADIF Export for Fast Log Entry by DF3CB", "ADIF Export for Fast Log Entry in-Browser by OH2CME")
-      .replace('<PROGRAMID:3>FLE', '<PROGRAMID:4>FLEB');
-  expect(printAdif(makeJsonArray(txt))).toBe(adi);
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
 })
 
-test('Parse ADIF export: sample_dxpedition.txt', () => {
+test('ADIF export: pota.txt', () => {
+  let txt = fs.readFileSync("./src/test/pota.txt").toString('utf-8');
+  let adi = fs.readFileSync("./src/test/pota.adi").toString('utf-8')
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+})
+
+test('ADIF export: sample_dxpedition.txt', () => {
   let txt = fs.readFileSync("./src/test/sample_dxpedition.txt").toString('utf-8');
   let adi = fs.readFileSync("./src/test/sample_dxpedition.adi").toString('utf-8')
-      .replace("ADIF Export for Fast Log Entry by DF3CB", "ADIF Export for Fast Log Entry in-Browser by OH2CME")
-      .replace('<PROGRAMID:3>FLE', '<PROGRAMID:4>FLEB');
-  expect(printAdif(makeJsonArray(txt))).toBe(adi);
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
 })
+
+test('Test contest serial numbering: contest.txt', () => {
+  let txt = fs.readFileSync("./src/test/contest.txt").toString('utf-8');
+  let adi = fs.readFileSync("./src/test/contest.adi").toString('utf-8')
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+})
+
+test('Test consecutive serial numbering: consecutive.txt', () => {
+  let txt = fs.readFileSync("./src/test/consecutive.txt").toString('utf-8');
+  let adi = fs.readFileSync("./src/test/consecutive.adi").toString('utf-8')
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+})
+

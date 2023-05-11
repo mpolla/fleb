@@ -1,15 +1,30 @@
-import { updateQsoList, modelist} from "./fleb";
+import { modelist } from "./fleb";
 
 import { createApp } from 'vue'
-import App from './App.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import App from './App.vue';
 
-createApp(App).mount('#app')
+import { highlightWithinTextarea } from "highlight-within-textarea";
 
+import Favicon from 'favicon.ico';
+
+import About from './components/About.vue';
+
+const routes = [
+  { path: "/", component: App },
+  { path: "/about", component: About }
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+const app = createApp(App);
+app.use(router);
+app.mount('#app')
 
 require("highlight-within-textarea");
-
-const { resetQsoList, download, previewAdif, notesReset, callRegex } = require("./fleb.js");
-
 
 const highlightRegexGrid = /(mygrid |#)[a-z]{2}[0-9]{2}([a-z]{2})?/gim;
 
@@ -28,44 +43,18 @@ const regexMm = /(?<=^\s*)[0-5][0-9](?=\s)/gim;
 const regexHhmm = /(?<=\s*)[0-2][0-9][0-5][0-9](?=\s)/gim;
 const highlightRegexCommentline = /^#.*$/mg;
 
-const regexFreq = /(?<=\s)[0-9]*\.[0-9]{1,}(?=\s)/gim;
+const regexFreq = /(?<=\s)[0-9]+\.[0-9]{1,}(?=\s)/gim;
 
 const regexRst = /(?<=[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM|[0-9]))?.* +)[1-9]{1,3}( +[1-9]{1,3})?(?=\s)/gim;
 const regexQsocomment = /(?<=\s*)<.*>(?=\s)/gim;
 const regexQslmsg = /(?<=\s*)\[.*\](?=\s)/gim;
 
-
-// ---------------------------------------
+const regexSerial = /(?<=\s*)[,\.][0-9]+(?=\s)/gim;
 
 import './style.css';
 import './jquery.highlight-within-textarea.css';
 
-resetQsoList();
-updateQsoList();
-//updateAdifPreview();
-
-window.lataa = () => {
-    download();
-}
-
-window.esi = () => {
-    previewAdif();
-}
-
-window.reset = () => {
-    notesReset();
-}
-
-window.uppa = () => {
-    updateQsoList();
-    //updateAdifPreview();
-}
-
-
-
-
-$('#notes').highlightWithinTextarea({
-
+(<any>$('#notes')).highlightWithinTextarea({
 
     highlight: [
         {
@@ -133,22 +122,25 @@ $('#notes').highlightWithinTextarea({
             className: 'fleb-wwff'
         },
         {
-            highlight: /[a-z]{1,2}ff-[0-9]{4}/gi,
+            highlight: /(wwff )?[a-z]{1,2}ff-[0-9]{4}/gi,
             className: 'fleb-wwff'
         },
-
-
         {
             highlight: /mysota [a-z]{1,2}\/[a-z]{2}-[0-9]{3}/gi,
             className: 'fleb-sota'
         },
         {
-            highlight: /[a-z]{1,2}\/[a-z]{2}-[0-9]{3}/gi,
+            highlight: /sota [a-z]{1,2}\/[a-z]{2}-[0-9]{3}/gi,
             className: 'fleb-sota'
         },
-
-
-
+        {
+            highlight: /mypota [a-z]{1,2}-[0-9]{4}/gi,
+            className: 'fleb-pota'
+        },
+        {
+            highlight: /pota [a-z]{1,2}-[0-9]{4}/gi,
+            className: 'fleb-pota'
+        },
         {
             highlight: regexFreq,
             className: 'fleb-freq'
@@ -167,8 +159,10 @@ $('#notes').highlightWithinTextarea({
         {
             highlight: regexHhmm,
             className: 'fleb-time'
+        },
+        {
+            highlight: regexSerial,
+            className: 'fleb-serial'
         }
     ]
-
-
 });

@@ -1,5 +1,5 @@
-var datetime = require("./datetime");
-var dateformat = require("dateformat");
+//var datetime = require("./datetime");
+//var dateformat = require("dateformat");
 
 var NumberField = {
     decode: function(value) { return parseFloat(value); },
@@ -99,6 +99,7 @@ module.exports = {
     "my_postal_code": StringField,
     "my_rig": StringField,
     "my_sota_ref": EnumField,
+    "my_pota_ref": EnumField,
     "my_state": EnumField,
     "my_street": StringField,
     "name": StringField,
@@ -135,7 +136,7 @@ module.exports = {
     "srx_string": StringField,
     "state": EnumField,
     "station_callsign": StringField,
-    "stx": NumberField,
+    "stx": StringField,
     "stx_string": StringField,
     "submode": EnumField,
     "swl": BooleanField,
@@ -149,5 +150,5 @@ module.exports = {
     "sig_info": StringField,
     "my_sig": StringField,
     "my_sig_info": StringField,
-    "sota_ref": StringField
+    "sota_ref": StringField,
 };

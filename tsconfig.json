@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": ":",
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "target": "es2016",
+        "lib": [
+            "es2017",
+            "dom",
+            "scripthost"
+        ],
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node"
+    }
+}
