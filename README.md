@@ -19,7 +19,7 @@ Feature comparison with [FLE by DF2CB](https://df3cb.com/fle/documentation/)
 | Off-line or real-time logging | ✅   | ✅           |
 | Interpolate log times         | ✅   | ✅           |
 | ADIF export                   | ✅   | ✅           |
-| CSV export                    | ✅   | ✅           |
+| CSV export                    | ❌   | ✅           |
 | LoTW and eQSL upload          | ❌   | ✅           |
 | Keyboard shortcuts            | ❌   | ✅           |
 | Consecutive serial numbers    | ❌   | ✅           |
