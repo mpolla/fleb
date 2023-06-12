@@ -27,6 +27,7 @@ Feature comparison with [FLE by DF2CB](https://df3cb.com/fle/documentation/)
 ## TODO
 
 - Offline operation
+- Documentation
 
 ## Run locally
 
