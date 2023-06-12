@@ -22,7 +22,10 @@ jobs:
         run: |
           npm install
           npm run build
-
+      - name: Deploy
+        run: |
+          npm run deploy
+          
 #  test:
 #    runs-on: ubuntu-latest
 #    steps:
@@ -30,9 +33,5 @@ jobs:
 #        run: |
 #          npm test
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        run: |
-          npm run deploy
+
+
