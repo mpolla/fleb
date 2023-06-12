@@ -11,18 +11,18 @@ Feature comparison with [FLE by DF2CB](https://df3cb.com/fle/documentation/)
 
 | Feature                       | FLEB | FLE by DF3CB |
 |-------------------------------|------|--------------|
-| Regular logging               | ✅    | ✅            |
-| Contest logging               | ✅    | ✅            |
-| WWFF logging                  | ✅    | ✅            |
-| SOTA logging                  | ✅    | ✅            |
-| POTA logging                  | ✅    | ✅            |
-| Off-line or real-time logging | ✅    | ✅            |
-| Interpolate log times         | ✅    | ✅            |
-| ADIF export                   | ✅    | ✅            |
-| CSV export                    | ✅    | ✅            |
-| LoTW and eQSL upload          | ❌    | ✅            |
-| Keyboard shortcuts            | ❌    | ✅            |
-| Conssecutive serial numbers   | ❌    | ✅            |
+| Regular logging               | ✅   | ✅           |
+| Contest logging               | ✅   | ✅           |
+| WWFF logging                  | ✅   | ✅           |
+| SOTA logging                  | ✅   | ✅           |
+| POTA logging                  | ✅   | ✅           |
+| Off-line or real-time logging | ✅   | ✅           |
+| Interpolate log times         | ✅   | ✅           |
+| ADIF export                   | ✅   | ✅           |
+| CSV export                    | ✅   | ✅           |
+| LoTW and eQSL upload          | ❌   | ✅           |
+| Keyboard shortcuts            | ❌   | ✅           |
+| Consecutive serial numbers    | ❌   | ✅           |
 
 ## TODO
 
