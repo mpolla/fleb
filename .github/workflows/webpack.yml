@@ -6,12 +6,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
-permissions:
-  contents: write
-
 jobs:
 
-  build-and-deploy:
+  build:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
@@ -22,14 +19,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-        
-      - name: Build 🔧
-        run: |
-          pwd
-          npm install
-          npx webpack
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: '.'
 
+      - name: Build
+        run: |
+          npm install
+          npm run build
+        
+      - name: Test 🔧
+        run: |
+          npm test
