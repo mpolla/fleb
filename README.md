@@ -26,7 +26,6 @@ Feature comparison with [FLE by DF2CB](https://df3cb.com/fle/documentation/)
 
 ## TODO
 
-- Improved date/time validation
 - Offline operation
 
 ## Run locally
