@@ -56,7 +56,8 @@ module.exports = {
     ],
 
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        //path: path.resolve(__dirname, 'dist'),
+        publicPath: "/fleb/",
         filename: '[name].js',
         assetModuleFilename: 'asset/[name][ext]'
     }
