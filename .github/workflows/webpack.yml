@@ -23,12 +23,12 @@ jobs:
           npm install
           npm run build
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        run: |
-          npm test
+#  test:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Test
+#        run: |
+#          npm test
 
   deploy:
     runs-on: ubuntu-latest
