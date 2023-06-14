@@ -1,5 +1,7 @@
 # FLEB - Fast Log Entry in-Browser
 
+App live at https://mpolla.github.io/fleb/
+
 FLEB is a web application for efficient plaintext ham radio contact logging. Write contact logs
 as you would on pen and paper - or digitize existing paper logs.
 
