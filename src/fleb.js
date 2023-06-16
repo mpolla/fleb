@@ -10,7 +10,7 @@ const modelist = ["bar", "cw", "ssb", "am", "fm", "rtty", "ft8", "ft4", "psk", "
     "jt44", "mfsk", "msk144", "mt63", "olivia", "opera", "pac", "pax", "pkt", "psk2k", "q15", "qra64", "ros",
     "rttym", "sstv", "t10", "thor", "thrb", "tor", "v4", "voi", "winmor", "wspr"];
 
-const regexBand = RegExp(/((2190|630|560|160|80|60|40|30|20|17|15|12|10|6|4|2|1\.25|70c|33c|23c|13c|9c|6c|3c|1\.25m|6m|4m|2\.5m|2m|1m)m)(?=\s)/, 'gm');
+const regexBand = RegExp(/(?<=\b)((2190|630|560|160|80|60|40|30|20|17|15|12|10|6|4|2|1\.25|70c|33c|23c|13c|9c|6c|3c|1\.25m|6m|4m|2\.5m|2m|1m)m)(?=\b)/, 'gm');
 
 const callRegex = RegExp(/(?<=[\s0-9]*)([a-z0-9]{1,3}\/)?\d?[a-z]{1,2}\d{1,4}[a-z]{0,6}(\d[a-z])?(\/[0-9a-z]{1,3})?/, 'im');
 
