@@ -4,7 +4,7 @@
 
 
   <div class="leaflet-container flebmap">
-    <l-map v-model:zoom="zoom" :center="(qsoData !== null && qsoData.length > 0) ? gridtokood(qsoData[qsoData.length-1].gridsquare) : [3, 24]" :options="{scrollWheelZoom: false}">
+    <l-map v-model:zoom="zoom" :center="(qsoData !== null && qsoData.length > 0) ? gridtokood(qsoData[qsoData.length-1].gridsquare) : [51, 0]" :options="{scrollWheelZoom: false}">
       <l-tile-layer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
