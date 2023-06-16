@@ -61,7 +61,11 @@ export default {
       //   return "MYCALL MISSING";
       // }
 
-      if (data.find(it => it.band === "???" || it.band === null)) {
+      if (data.find(it => it.band === null)) {
+        return "Please insert band, e.g. '10m' or '20m'";
+      }
+
+      if (data.find(it => it.mode === null)) {
         return "Please insert operating mode, e.g. 'ssb' or 'cw'";
       }
 
