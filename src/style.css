@@ -84,6 +84,8 @@ mark.fleb-freq {
 mark.fleb-commentline {
     background-color: #cbe5f1;
     color: black !important;
+    display: inline flow-root list-item;
+    width: 100%;
 }
 
 mark.fleb-qsocomment {
