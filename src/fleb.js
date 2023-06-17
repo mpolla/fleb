@@ -66,8 +66,11 @@ const flagmap = {
     // USA
     "k|w|n|a[a-k]": "🇺🇸",
     // Canada
-    "v[ecoy]|ci": "🇨🇦"
-
+    "v[ecoy]|ci": "🇨🇦",
+    // Hungary
+    "h[ag]": "🇭🇺",
+    // France
+    "f[abcdef]|tm": "🇫🇷"
 };
 
 
