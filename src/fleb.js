@@ -70,7 +70,7 @@ const flagmap = {
     // Hungary
     "h[ag]": "🇭🇺",
     // France
-    "f[abcdef]|tm": "🇫🇷"
+    "f[abcdef]?|tm": "🇫🇷"
 };
 
 
