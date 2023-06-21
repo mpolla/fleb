@@ -25,9 +25,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: test
+      - name: Test
         run: |
           npm install
           npm run test
@@ -37,6 +37,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
