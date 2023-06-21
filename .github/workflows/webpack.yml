@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build, Test and Deploy
 
 on:
   push:
@@ -7,23 +7,36 @@ on:
 
 permissions:
   contents: write
+
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Install and Build 🔧
+      - name: Install and Build
         run: |
           npm install
           npm run build
 
-      - name: Deploy 🚀
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: |
+          npm test
+  
+  deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
           git-config-name: Github Actions
           git-config-email: <>
-          
+
