@@ -21,8 +21,8 @@ export default {
   props: ['realtimemode', 'interpolate'],
   data() {
     return {
-      //nootit: 'mycall oh2cme\noperator oh2cme\nmygrid KP20lf\n\ndate 2023-05-28\n20m cw\n14.044\n\n1533\n34 ik1xr @Paolo < message > { comment } #JN53er\n10m ssb\nla/oh1xy/p laff-0123\n58 oz4ek 577\n80m ssb\ns53cq\nfa4psq\non3ed #IO91wm',
-      nootit: '# Header\nmycall \nmygrid\noperator \n\n# Log\ndate ' + (new Date()).toISOString().substring(0, 10) + '\n',
+      nootit: 'mycall oh2cme\noperator oh2cme\nmygrid KP20lf\n\ndate 2023-05-28\n20m cw\n14.044\n\n1533\n34 ik1xr @Paolo < message > { comment } #JN53er\n10m ssb\nla/oh1xy/p laff-0123\n58 oz4ek 577\n80m ssb\ns53cq\nfa4psq\non3ed #IO91wm',
+      //nootit: '# Header\nmycall \nmygrid\noperator \n\n# Log\ndate ' + (new Date()).toISOString().substring(0, 10) + '\n',
       //nootit: '',
       noottijson: '',
       myValue: '',
@@ -164,7 +164,11 @@ export default {
 
 @media only screen and (max-width: 600px) {
   #notes {
-    width: 24rem;
+    /*width: 24rem;*/
+    /*width: 520px;*/
+    width: 410px;
+    max-width: 100%;
+    min-width: 100%;
   }
 
 }

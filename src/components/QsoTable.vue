@@ -78,7 +78,7 @@
 <style>
 
 
-table {
+table.qsotable, table.flebstats {
   box-sizing: border-box;
   color: #0a246a;
   font-size: 80%;

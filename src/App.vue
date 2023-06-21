@@ -55,17 +55,19 @@
                   <label><input type="checkbox" v-model="show.col_band">Band</label><br>
                   <label><input type="checkbox" v-model="show.col_mode">Mode</label><br>
                   <label><input type="checkbox" v-model="show.col_freq">Frequency</label><br>
-                </td>
-                  <td>
+
                   <label><input type="checkbox" v-model="show.col_rst_sent" title="Received RST report.">RSTs</label><br>
                   <label><input type="checkbox" v-model="show.col_stx" title="Sent serial number">STX</label><br>
                   <label><input type="checkbox" v-model="show.col_rst_rcvd">RSTr</label><br>
+
+                    </td>
+                  <td>
+
                     <label><input type="checkbox" v-model="show.col_srx" title="Received serial number">SRX</label><br>
                     <label><input type="checkbox" v-model="show.col_gridsquare" title="Grid square">Grid</label><br>
                     <label><input type="checkbox" v-model="show.col_comment">Comment</label><br>
                     <label><input type="checkbox" v-model="show.col_name" title="Operators name">Name</label><br>
-                </td>
-                  <td>
+
 
 
                     <label><input type="checkbox" v-model="show.col_qslmsg">QSL message</label><br>
@@ -249,109 +251,13 @@ export default {
 
 
 
-
-#app {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-  margin: 0 auto;
-}
-
-input {
-  width: 5rem;
-  margin-right: .3rem;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto;
-  padding: 1rem;
-  border: 1px solid #ccc;
-}
-.grid-item {
-  padding: .1rem 0;
-}
-
-.grid-item.header {
-  grid-column: span 2;
-}
-
-.grid-item.footer {
-  grid-column: span 2;
-  font-size: 80%;
-  text-align: center;
-}
-
-.menuicon {
-  padding: .2rem;
-  font-size: 100%;
-  color: #777;
-  background-color: #ffffff;
-}
-
-.toolbar {
-  horiz-align: center;
-  padding: .1rem 0;
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-
-.sidebar {
-  background-color: #f5f5f5;
-  /*width: 23rem;*/
-}
-
-fieldset {
-  border: 1px solid #ddd;
-  border-radius: 3px;
+label {
+  white-space: nowrap;
 }
 
 
 
-@media only screen and (max-width: 600px) {
 
-  body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-
-  #app {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 0;
-    margin: 0 auto;
-    /*background-color: #d8d8ff;*/
-  }
-
-  .grid-container {
-    display: grid;
-    grid-template-columns: auto;
-    border: none;
-    padding: 0;
-    margin: 0;
-  }
-  .grid-item {
-    padding: 0;
-    margin: 0;
-  }
-
-  .grid-item.header {
-    grid-column: span 1;
-  }
-
-
-
-}
 
 
 </style>
