@@ -117,7 +117,7 @@ test('ADIF export: basic.txt', () => {
   let adi = fs.readFileSync("./src/test/basic.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
 })
 
 test('ADIF export: sample_wwff_sota.txt', () => {
@@ -125,7 +125,7 @@ test('ADIF export: sample_wwff_sota.txt', () => {
   let adi = fs.readFileSync("./src/test/sample_wwff_sota.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
 })
 
 test('ADIF export: pota.txt', () => {
@@ -133,7 +133,7 @@ test('ADIF export: pota.txt', () => {
   let adi = fs.readFileSync("./src/test/pota.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
 })
 
 test('ADIF export: sample_dxpedition.txt', () => {
@@ -141,7 +141,7 @@ test('ADIF export: sample_dxpedition.txt', () => {
   let adi = fs.readFileSync("./src/test/sample_dxpedition.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
 })
 
 test('Test contest serial numbering: contest.txt', () => {
@@ -149,7 +149,7 @@ test('Test contest serial numbering: contest.txt', () => {
   let adi = fs.readFileSync("./src/test/contest.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
 })
 
 test('Test consecutive serial numbering: consecutive.txt', () => {
@@ -157,6 +157,6 @@ test('Test consecutive serial numbering: consecutive.txt', () => {
   let adi = fs.readFileSync("./src/test/consecutive.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
 })
 
