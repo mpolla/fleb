@@ -26,7 +26,8 @@ jobs:
     steps:
       - name: test
         run: |
-          npm test
+          npm install
+          npm run test
   
   deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
