@@ -155,7 +155,7 @@ export default {
       kdata: [],
 
 
-      realtimemode: true,
+      realtimemode: false,
       interpolate: true,
 
 
