@@ -157,6 +157,13 @@ test('Test consecutive serial numbering: consecutive.txt', () => {
   let adi = fs.readFileSync("./src/test/consecutive.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true, true), true)).toBe(adi);
 })
 
+test('Test fle cli\'s grid example file', () => {
+  let txt = fs.readFileSync("./src/test/flecligrid.txt").toString('utf-8');
+  let adi = fs.readFileSync("./src/test/flecligrid.adi").toString('utf-8')
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt, true, true), true)).toBe(adi);
+})
