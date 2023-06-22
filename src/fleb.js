@@ -792,8 +792,8 @@ function interpolateTimes(qsos) {
 
 function fixSerials(qsos) {
     let serial = 1;
-    const serials = qsos.find(el => el.stx !== undefined);
-    if (serials !== undefined) {
+    //const serials = qsos.find(el => el.stx !== undefined);
+    //if (serials !== undefined) {
         for (let i = 0; i < qsos.length; i++) {
             if (qsos[i].stx == undefined) {
 
@@ -814,11 +814,11 @@ function fixSerials(qsos) {
                 // serial++;
             }
         }
-    }
+    //}
     return qsos;
 }
 
-const makeJsonArray = (notestuff, interpolate) => {
+const makeJsonArray = (notestuff, interpolate, consecutiveserials = false) => {
 
     resetData();
     let jsonarray = [];
@@ -914,7 +914,7 @@ const makeJsonArray = (notestuff, interpolate) => {
 
 
     let interpolated = interpolate ? interpolateTimes(jsonarray) : jsonarray;
-    let fixedSerials = true /* FIXME Add prop */ ? fixSerials(interpolated) : interpolated;
+    let fixedSerials = consecutiveserials ? fixSerials(interpolated) : interpolated;
     return fixedSerials;
 }
 
