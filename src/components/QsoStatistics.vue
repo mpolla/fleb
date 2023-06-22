@@ -55,6 +55,13 @@ table {
 }
 
 
+@media only screen and (max-width: 600px) {
+  table.flebstats {
+    width: 98vw;
+  }
+}
+
+
 </style>
 
 <script>

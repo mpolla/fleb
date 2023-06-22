@@ -166,7 +166,7 @@ export default {
   #notes {
     /*width: 24rem;*/
     /*width: 520px;*/
-    width: 410px;
+    width: 97vw;
     max-width: 100%;
     min-width: 100%;
   }

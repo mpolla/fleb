@@ -101,7 +101,7 @@
     </div>
 
     <div class="grid-item footer">
-      See also: Fast Log Entry (FLE) <a href="https://df3cb.com/fle/">https://df3cb.com/fle/</a>
+      <a href="https://github.com/mpolla/fleb/">Project on GitHub</a>
     </div>
 
   </div>

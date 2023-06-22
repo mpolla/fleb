@@ -113,15 +113,13 @@ export default {
   .flebmap {
     min-height: 200px;
     min-width: 200px;
-    width: 200px;
-    height: 200px;
-
     box-sizing: border-box;
   }
 
 
   div.leaflet-container {
-    width: 100%;
+    width: 98vw;
+
   }
 }
 

@@ -115,6 +115,14 @@ tbody tr:nth-child(odd) {
   width: 2rem;
 }
 
+
+@media only screen and (max-width: 600px) {
+  table.qsotable {
+    width: 98vw;
+  }
+}
+
+
 </style>
 
 

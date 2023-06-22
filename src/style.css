@@ -216,10 +216,18 @@ fieldset {
 
     body {
         margin: 0;
-        padding: 0;
+        padding: 5px;
         width: 100%;
         background-color: #fffbf4;
     }
+
+    h1 {
+    color: #9caf98;
+    font-family: Helvetica;
+    font-weight: bold;
+    margin: .1rem;
+        font-size: 70%;
+}
 
     #app {
         display: flex;
