@@ -28,9 +28,6 @@
             <legend>Settings</legend>
             <fieldset>
               <legend>Mode</legend>
-<!--              <label for="offline">Offline-->
-<!--                <input type="radio" name="logginmode" value="offline" checked="checked" v-model="loggingmode">-->
-<!--              </label>-->
               <label for="realtime">
                 <input type="checkbox" name="realtimemode" value="realtime" v-model="realtimemode">
                 Real time mode (add current timestamp on ENTER).
@@ -43,6 +40,9 @@
 
 
             <label>Show QSO list<input v-model="show.list" type="checkbox" /></label>
+            <label>Show map<input v-model="show.map" type="checkbox" /></label>
+            <label>Show statistics<input v-model="show.statistics" type="checkbox" /></label>
+
             <fieldset>
               <legend>Show columns</legend>
 
@@ -81,8 +81,7 @@
               </table>
 
             </fieldset>
-            <label>Show map<input v-model="show.map" type="checkbox" /></label>
-            <label>Show statistics<input v-model="show.statistics" type="checkbox" /></label>
+
 
           </fieldset>
         </div>

@@ -9,8 +9,8 @@
   <tr>
     <th>#</th>
     <th v-if="show.col_station_callsign">My Call</th>
-    <th v-if="show.col_band">Date</th>
-    <th v-if="show.col_band">Time</th>
+    <th v-if="show.col_date">Date</th>
+    <th v-if="show.col_time">Time</th>
     <th v-if="show.col_call" class="callcolumn">Call</th>
     <th v-if="show.col_band">Band</th>
     <th v-if="show.col_mode">Mode</th>
@@ -28,12 +28,6 @@
     <th v-if="show.col_sota_ref">Their SOTA Ref</th>
     <th v-if="show.col_operator">Operator</th>
     <th v-if="show.my_gridsquare">My grid</th>
-
-
-
-
-    <!--    <th>My SOTA ref</th>-->
-<!--    <th>Their SOTA ref</th>-->
   </tr>
 </thead>
     <tbody>
@@ -62,10 +56,6 @@
           <td v-if="show.col_sota_ref">{{ qso.sota_ref }}</td>
           <td v-if="show.col_operator">{{ qso.operator }}</td>
           <td v-if="show.col_my_gridsquare">{{ qso.my_gridsquare }}</td>
-
-
-          <!--    <td>{{ qso.my_sota_ref }}</td>-->
-          <!--    <td>{{ qso.sota_ref }}</td>-->
         </tr>
 
     </tbody>
