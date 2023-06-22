@@ -86,7 +86,7 @@ import './jquery.highlight-within-textarea.css';
             className: 'fleb-reserved-word'
         },
         {
-            highlight: /((2190|630|560|160|80|60|40|30|20|17|15|12|10|6|4|2|1\.25|70c|33c|23c|13c|9c|6c|3c|1\.25m|6m|4m|2\.5m|2m|1m)m)(?=\s)/gm,
+            highlight: /\b((2190|630|560|160|80|60|40|30|20|17|15|12|10|6|4|2|1\.25|70c|33c|23c|13c|9c|6c|3c|1\.25m|6m|4m|2\.5m|2m|1m)m)(?=\s)/gm,
             className: 'fleb-reserved-word'
         },
         {
