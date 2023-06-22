@@ -58,9 +58,17 @@ import './jquery.highlight-within-textarea.css';
 
     highlight: [
         {
-            highlight: /\{.*\}/g,
+            highlight: /^\{.*\}/gm,
             className: 'fleb-commentline'
         },
+
+
+        {
+            highlight: /\{.*\}/gm,
+            className: 'fleb-commentsegment'
+        },
+
+
         {
           highlight: highlightRegexCommentline,
           className: 'fleb-commentline'

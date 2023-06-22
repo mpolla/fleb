@@ -88,6 +88,12 @@ mark.fleb-commentline {
     width: 100%;
 }
 
+mark.fleb-commentsegment {
+    background-color: #cbe5f1;
+    color: black !important;
+    width: 100%;
+}
+
 mark.fleb-qsocomment {
     background-color: #e7e7e7;
     color: black !important;
