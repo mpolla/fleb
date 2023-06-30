@@ -39,7 +39,7 @@ const flagmap = {
     // Poland
     "s[nopqr]|3z": "🇵🇱",
     // Russia
-    "u[a-i]|r[a-z]": "💩",
+    "(u[a-i])|(r[a-z])": "🇷🇺",
     // Ukraine
     "u[r-z]|em|eo": "🇺🇦",
     // Estonia
@@ -73,7 +73,13 @@ const flagmap = {
     // France
     "f[abcdef]?|tm": "🇫🇷",
     // Bulgaria
-    "lz": "🇧🇬"
+    "lz": "🇧🇬",
+    // England
+    "g": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    // Austria
+    "oe": "🇦🇹",
+    // Croatia
+    "9a": "🇭🇷"
 };
 
 
@@ -363,8 +369,8 @@ const downloadTxt = () => {
 
 function flagIcon(call) {
     for (const [prefix, flag] of Object.entries(flagmap)) {
-        let rege = RegExp(`^${prefix}`, 'i');
-        if (rege.test(call)) {
+        let rege = RegExp(`^${prefix}`, 'im');
+        if (rege.test(call.split('/')[0])) {
             return flag;
         }
     }
