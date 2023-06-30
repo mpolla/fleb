@@ -100,7 +100,7 @@ import './jquery.highlight-within-textarea.css';
         },
 
         {
-            highlight: /qslmsg [a-z0-9\. ]+/i,
+            highlight: /qslmsg [a-z0-9\.\-\(\) ]+/i,
             className: 'fleb-globalqslmsg'
         },
 

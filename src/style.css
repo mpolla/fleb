@@ -125,12 +125,12 @@ mark.fleb-serial {
 }
 
 mark.fleb-nick {
-    background-color: #61b089;
+    background-color: #b0f1d2;
     color: #222 !important;
 }
 
 mark.fleb-globalqslmsg {
-    background-color: #bb1663;
+    background-color: #eeaec8;
     color: #222 !important;
 }
 
@@ -221,8 +221,6 @@ fieldset {
     border-radius: 3px;
 }
 
-
-
 @media only screen and (max-width: 600px) {
 
     body {
@@ -276,8 +274,6 @@ fieldset {
         font-size: 80%;
         text-align: center;
     }
-
-
 
     /*.grid-item.header {*/
     /*    grid-column: span 1;*/
