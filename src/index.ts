@@ -140,7 +140,7 @@ import './jquery.highlight-within-textarea.css';
             className: 'fleb-wwff'
         },
         {
-            highlight: /mysota [a-z]{1,2}\/[a-z]{2}-[0-9]{3}/gi,
+            highlight: /(mysota )?[a-z]{1,2}\/[a-z]{2}-[0-9]{3}/gi,
             className: 'fleb-sota'
         },
         {
