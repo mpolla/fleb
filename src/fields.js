@@ -151,4 +151,6 @@ module.exports = {
     "my_sig": StringField,
     "my_sig_info": StringField,
     "sota_ref": StringField,
+
+    "app_eqsl_qth_nickname": StringField
 };

@@ -124,6 +124,17 @@ mark.fleb-serial {
     color: #222 !important;
 }
 
+mark.fleb-nick {
+    background-color: #61b089;
+    color: #222 !important;
+}
+
+mark.fleb-globalqslmsg {
+    background-color: #bb1663;
+    color: #222 !important;
+}
+
+
 .settings {
     background-color: #ddd;
 

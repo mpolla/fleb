@@ -1,6 +1,7 @@
 const dateformat = require("dateformat");
 let fields = require("./fields.js");
 const {notes, mode} = require("./fields");
+const {trim} = require("jquery");
 
 
 
@@ -118,7 +119,10 @@ AdiWriter.prototype.writeProperty = function(key, value) {
     else if (key === "_rev") key = "app_cloudshack_rev";
     else if (key === "start") {
 
-        let date = new Date(value.toISOString());
+        let date = null;
+        if (value !== null) {
+            date = new Date(value.toISOString());
+        }
         this.writeField("qso_date", dateformat(date, "UTC:yyyymmdd"));
         this.data += " ";
         this.writeField("time_on", dateformat(date, "UTC:HHMM"));
@@ -222,12 +226,30 @@ let MYWWFF = null;
 let MYSOTA = null;
 let MYPOTA = null;
 let OPERATOR = null;
+let NICK = null;
+let GLOBALQSLMSG = null;
 let STX = null;
 
 function parseOperator(line) {
     let koolit = callRegex.exec(line);
     if (koolit != null) {
         return koolit[0].toUpperCase();
+    }
+    return null;
+}
+
+function parseNick(line) {
+    let nikit = /(?<=nickname ).*/.exec(line);
+    if (nikit != null) {
+        return nikit[0];
+    }
+    return null;
+}
+
+function parseGlobalQslMsg(line) {
+    let qslmsg = /(?<=qslmsg ).*/.exec(line);
+    if (qslmsg != null) {
+        return qslmsg[0];
     }
     return null;
 }
@@ -465,20 +487,26 @@ function parseTime(line) {
     let QMINUTE = null;
 
     let timedata = null;
-    //let rx = /(?<=\s*)([0-2][0-9])?[0-5]?[0-9](?=\s)/i;
+
+    let trimmedline = line.split(callRegex)[0].trim();
+
 
     //           hhmm                 mm           m
-    let rx = /([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9])/im;
+    let rx = /\b([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9])\b/im;
     let result = rx.exec(line);
     if (result == null) {
         return null;
     }
     timedata = result[0];
 
-    let td1 = line.match(/^(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))$/m);
-    let td2 = line.match(/^(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))\s/m);
-    let td3 = line.match(/\s(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))$/m);
-    let td4 = line.match(/\s(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))\s/m);
+    // ^time$
+    let td1 = trimmedline.match(/^(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))$/m);
+    // ^time
+    let td2 = trimmedline.match(/^(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))\s/m);
+    // time$
+    let td3 = trimmedline.match(/\s(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))$/m);
+    // time
+    let td4 = trimmedline.match(/\s(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))\s/m);
      if (td1 !== null) { timedata = td1[0].trim(); }
     else if (td2 !== null) { timedata = td2[0].trim(); }
     else if (td3 !== null) { timedata = td3[0].trim(); }
@@ -605,6 +633,11 @@ const addQso = (qsoline) => {
     let NAME = parseName(qsoline);
     let GRID = parseGrid(qsoline);
     let QSLMSG = parseQsoQslMsg(qsoline);
+
+    if (GLOBALQSLMSG !== null && QSLMSG === null) {
+        QSLMSG = GLOBALQSLMSG;
+    }
+
     let COMMENT = parseQsoComment(qsoline);
     let WWFF = parseWwffref(qsoline);
     let THEIRSOTA = parseSotaref(qsoline);
@@ -674,7 +707,7 @@ const addQso = (qsoline) => {
     }
 
     if (GRID != null) {
-        uu.gridsquare = GRID;
+        uu.gridsquare = GRID.toUpperCase();
     }
 
     if (COMMENT != null) {
@@ -719,6 +752,10 @@ const addQso = (qsoline) => {
 
     if (OPERATOR != null) {
         uu.operator = OPERATOR;
+    }
+
+    if (NICK !== null) {
+        uu.app_eqsl_qth_nickname = NICK;
     }
 
     if (MYGRID != null) {
@@ -788,7 +825,25 @@ function interpolateTimes(qsos) {
     return qsos;
 }
 
+function fillTimes(qsos) {
 
+    let lastKnownTime = null;
+
+    for (let i = 0; i < qsos.length; i++) {
+        if (qsos[i].start !== null) {
+            lastKnownTime = qsos[i].start;
+        }
+        if (qsos[i].start === null && lastKnownTime !== null) {
+            qsos[i].start = lastKnownTime;
+        }
+
+
+    }
+
+
+
+    return qsos;
+}
 
 function fixSerials(qsos) {
     let serial = 1;
@@ -818,7 +873,7 @@ function fixSerials(qsos) {
     return qsos;
 }
 
-const makeJsonArray = (notestuff, interpolate, consecutiveserials = false) => {
+const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false) => {
 
     resetData();
     let jsonarray = [];
@@ -845,6 +900,14 @@ const makeJsonArray = (notestuff, interpolate, consecutiveserials = false) => {
         if (line.match(/operator /)) {
             OPERATOR = parseOperator(line);
             continue;
+        }
+
+        if (line.match(/nickname /)) {
+            NICK = parseNick(line);
+        }
+
+        if (line.match(/qslmsg /)) {
+            GLOBALQSLMSG = parseGlobalQslMsg(line);
         }
 
         if (line.match(/date [0-9]{4}/)) {
@@ -913,7 +976,7 @@ const makeJsonArray = (notestuff, interpolate, consecutiveserials = false) => {
     }
 
 
-    let interpolated = interpolate ? interpolateTimes(jsonarray) : jsonarray;
+    let interpolated = interpolate ? interpolateTimes(jsonarray) : fillTimes(jsonarray);
     let fixedSerials = consecutiveserials ? fixSerials(interpolated) : interpolated;
     return fixedSerials;
 }
@@ -950,5 +1013,5 @@ const notesReset = () => {
 }
 
 module.exports = { parseName, parseGrid, parseComment: parseQsoQslMsg, parseQslmessage: parseQsoComment, parseWwffref, makeJsonArray,
-    downloadAdif, downloadCsv, downloadTxt, addQso, printAdif, parseCall, parseTime, parseMode, detectband,
+    downloadAdif, downloadCsv, downloadTxt, addQso, printAdif, parseCall, parseTime, parseNick, parseMode, detectband,
     modelist, parseSotaref, parsePotaref, previewAdif, notesReset, callRegex, flagIcon, parseSTX, parseSRX }

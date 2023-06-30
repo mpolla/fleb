@@ -61,14 +61,10 @@ import './jquery.highlight-within-textarea.css';
             highlight: /^\{.*\}/gm,
             className: 'fleb-commentline'
         },
-
-
         {
             highlight: /\{.*\}/gm,
             className: 'fleb-commentsegment'
         },
-
-
         {
           highlight: highlightRegexCommentline,
           className: 'fleb-commentline'
@@ -98,6 +94,16 @@ import './jquery.highlight-within-textarea.css';
             highlight: operatorRegex,
             className: 'fleb-reserved-word'
         },
+        {
+            highlight: /nickname [a-z0-9 ]+/i,
+            className: 'fleb-nick'
+        },
+
+        {
+            highlight: /qslmsg [a-z0-9\. ]+/i,
+            className: 'fleb-globalqslmsg'
+        },
+
 
         {
             highlight: theirCallRegex,
