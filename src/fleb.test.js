@@ -1,4 +1,4 @@
-const { parseName, parseGrid, parseComment, parseQslmessage, printAdif, parseCall, parseTime, parseMode, detectband, parseSTX, parseSRX } = require("./fleb.js");
+const { parseName, parseGrid, parseComment, parseQslmessage, printAdif, parseCall, parseTime, parseMode, parseNick, detectband, parseSTX, parseSRX } = require("./fleb.js");
 const {makeJsonArray, parseSotaref, parsePotaref} = require("./fleb");
 
 
@@ -50,6 +50,12 @@ test('Parse time', () => {
   // Invalid hhmm data
   expect(parseTime("9931 sm5abc")).toStrictEqual(null);
   expect(parseTime("331 sm5abc")).toStrictEqual(null);
+  // Do not parse rst as minutes
+  expect(parseTime("pa0nbb 44")).toStrictEqual(null);
+
+  // Time after band/mode
+  expect(parseTime("80m cw 2335 ra3ax 55")).toStrictEqual(["23", "35"]);
+
 });
 
 test('Parse name', () => {
@@ -112,6 +118,11 @@ test('Parse contest serial numbers', () => {
 })
 
 
+test('Parse nickname', () => {
+  expect(parseNick("nickname foo")).toBe("foo")
+})
+
+
 test('ADIF export: basic.txt', () => {
   let txt = fs.readFileSync("./src/test/basic.txt").toString('utf-8');
   let adi = fs.readFileSync("./src/test/basic.adi").toString('utf-8')
@@ -141,7 +152,7 @@ test('ADIF export: sample_dxpedition.txt', () => {
   let adi = fs.readFileSync("./src/test/sample_dxpedition.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true, false), true)).toBe(adi);
 })
 
 test('Test contest serial numbering: contest.txt', () => {
@@ -149,7 +160,7 @@ test('Test contest serial numbering: contest.txt', () => {
   let adi = fs.readFileSync("./src/test/contest.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt, true), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, true, true), true)).toBe(adi);
 })
 
 test('Test consecutive serial numbering: consecutive.txt', () => {
@@ -165,5 +176,5 @@ test('Test fle cli\'s grid example file', () => {
   let adi = fs.readFileSync("./src/test/flecligrid.adi").toString('utf-8')
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
-  expect(printAdif(makeJsonArray(txt, true, true), true)).toBe(adi);
+  expect(printAdif(makeJsonArray(txt, false, true), true)).toBe(adi);
 })
