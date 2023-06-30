@@ -105,6 +105,7 @@ export default {
   min-width: 400px;
   box-sizing: border-box;
   width: 100%;
+  margin-top: -4px;
 }
 
 

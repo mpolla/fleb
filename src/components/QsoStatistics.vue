@@ -100,7 +100,12 @@ export default {
       try {
         let duration = Math.floor(((dat[dat.length - 1].start - dat[0].start) / 1000) / 60);
         if (!isNaN(duration)) {
-          return duration + " minutes";
+          let hours = Math.floor(duration / 60);
+          let minutes = duration % 60;
+          if (minutes == 0) {
+            minutes = 1;
+          }
+          return (hours > 0 ? hours + " hours " : "") + minutes + " minutes";
         }
       } catch (e) {
         return "error";

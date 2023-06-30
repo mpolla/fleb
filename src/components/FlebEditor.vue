@@ -1,10 +1,7 @@
 <template>
+
   <textarea ref="noutti" id="notes" class="string-example hwt-input hwt-content" v-model="nootit" spellcheck="false" @keydown.enter="processEnterRealtime" @keydown="kbdShortcut">
   </textarea>
-
-  <!--  <p>Nootit on {{ nootit }}</p>-->
-<!--  <p>JSON on {{ myValue }}</p>-->
-  <!--  <p onLoad="paivitaNoottiJson">loaderi</p>-->
 
   <Transition>
   <div v-if="errorMsg != null" class="error">{{errorMsg}}</div>
@@ -15,7 +12,6 @@
 <script>
 
 import { makeJsonArray, callRegex } from "../fleb";
-
 
 export default {
   props: ['realtimemode', 'interpolate'],
@@ -158,10 +154,6 @@ export default {
   padding: 0;
 }
 
-/*textarea:focus {*/
-/*  border: 1px solid white;*/
-/*}*/
-
 @media only screen and (max-width: 600px) {
   #notes {
     /*width: 24rem;*/
@@ -172,6 +164,5 @@ export default {
   }
 
 }
-
 
 </style>
