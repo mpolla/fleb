@@ -11,10 +11,10 @@
           name="OpenStreetMap"
       ></l-tile-layer>
 
-<!--      <l-marker v-if="qsoData !== null && qsoData.length > 0 && qsoData[0].my_gridsquare !== undefined" :lat-lng="gridtokood(qsoData[0].my_gridsquare)" :icon="torni"/>-->
+      <!-- mygrid -->
       <l-marker v-if="qsoData !== null && qsoData.length > 0 && qsoData[0].my_gridsquare !== undefined" :lat-lng="gridtokood(qsoData[0].my_gridsquare)" :icon="torni"/>
 
-
+      <!-- grid -->
       <l-marker v-if="qsoData !== null" v-for="(kuso, index) in qsoData.filter(it => it.gridsquare !== undefined)" :lat-lng="gridtokood(kuso.gridsquare)" :icon="igoni">
         <l-tooltip>
           <table>
@@ -23,10 +23,10 @@
             </tr>
           </table>
         </l-tooltip>
-
       </l-marker>
 
-      <l-polyline v-if="qsoData !== null" v-for="(kuso, index) in qsoData.filter(it => it.gridsquare !== undefined)" :lat-lngs="[gridtokood(kuso.my_gridsquare), gridtokood(kuso.gridsquare)]" color="#cc0000"/>
+      <!-- line between mygrid and grid -->
+      <l-polyline v-if="qsoData !== null && qsoData.length > 0 && qsoData[0].my_gridsquare !== undefined" v-for="(kuso, index) in qsoData.filter(it => it.gridsquare !== undefined)" :lat-lngs="[gridtokood(kuso.my_gridsquare), gridtokood(kuso.gridsquare)]" color="#cc0000"/>
 
     </l-map>
 
