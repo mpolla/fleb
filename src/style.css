@@ -219,7 +219,21 @@ input {
 fieldset {
     border: 1px solid #ddd;
     border-radius: 3px;
+    color: #0a246a;
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-family: sans-serif;
 }
+
+label {
+    font-size: 80%;
+    color: #0a246a;
+    font-family: sans-serif;
+}
+
+
+
 
 @media only screen and (max-width: 600px) {
 

@@ -45,6 +45,9 @@ table {
 
 .headercol {
   width: 8rem;
+  white-space: nowrap;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .timestampcell {
