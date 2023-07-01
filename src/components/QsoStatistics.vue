@@ -17,12 +17,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="bandi in new Set(qsoData.map(item => item.band).sort())">
-          <td>{{ bandi }}</td>
-          <td>{{ qsoData.filter(qs => qs.band === bandi ).length}}</td>
-          <td>{{ qsoData.filter(qs => qs.band === bandi ).filter(qs => qs.mode === "CW").length }}</td>
-          <td>{{ qsoData.filter(qs => qs.band === bandi ).filter(qs => qs.mode === "SSB").length }}</td>
-          <td>{{ qsoData.filter(qs => qs.band === bandi ).filter(qs => qs.mode === "FT8").length }}</td>
+        <tr v-for="band in new Set(qsoData.map(item => item.band).sort())">
+          <td>{{ band }}</td>
+          <td>{{ qsoData.filter(qs => qs.band === band ).length}}</td>
+          <td>{{ countCW(qsoData, band) }}</td>
+
+          <td>{{ countPhone(qsoData, band) }}</td>
+          <td>{{ countDigi(qsoData, band) }}</td>
         </tr>
         </tbody>
 
@@ -69,6 +70,15 @@ table {
 export default {
   props: ['qsoData'],
   methods: {
+    countCW: function(qsos, band) {
+      return qsos.filter(qso => qso.band === band ).filter(qso => ["CW"].includes(qso.mode)).length;
+    },
+    countPhone: function(qsos, band) {
+      return qsos.filter(qso => qso.band === band ).filter(qso => ["SSB", "FM", "AM", "DMR", "DSTAR", "DIGITALVOICE"].includes(qso.mode)).length;
+    },
+    countDigi: function(qsos, band) {
+      return qsos.filter(qso => qso.band === band).length - this.countCW(qsos, band) - this.countPhone(qsos, band);
+    },
     getStart: function (dat) {
       if (dat === null || dat.length === 0 || dat[0].start === undefined) {
         return "-";
