@@ -119,7 +119,7 @@ export default {
 
 
   div.leaflet-container {
-    width: 98vw;
+    width: 100vw;
 
   }
 }

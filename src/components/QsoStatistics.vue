@@ -10,7 +10,7 @@
     <tr><th class="headercol">Σ QSOs:</th><td> {{ qsoData.length }} </td></tr>
 
     <tr><td colspan="2">
-      <table>
+      <table class="bandstats">
         <thead>
         <tr>
           <th>Band</th><th class="numbercol">QSO</th><th class="numbercol">CW</th><th class="numbercol">Phone</th><th class="numbercol">Digi</th>
@@ -61,8 +61,18 @@ table {
 
 @media only screen and (max-width: 600px) {
   table.flebstats {
-    width: 98vw;
+    width: 100vw;
   }
+  table.bandstats {
+    width: 99vw;
+  }
+
+
+.timestampcell {
+  min-width: 7rem;
+}
+
+
 }
 
 

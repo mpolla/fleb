@@ -34,7 +34,7 @@
 
 
         <tr v-for="(qso, index) in qsolist" :key="index">
-          <td>{{ index+1 }}</td>
+          <td class="qsonumber">{{ index+1 }}</td>
 
           <td v-if="show.col_station_callsign">{{ qso.station_callsign }}</td>
           <td v-if="show.col_date" class="datecell">{{ formatDate(qso) }}</td>
@@ -78,7 +78,7 @@ table.qsotable, table.flebstats {
   margin-bottom: .3rem;
 
 
-  width: 23rem;
+  width: 25rem;
 }
 
 table td + td { border-left:2px solid rgba(255, 255, 255, 0.5); }
@@ -115,10 +115,13 @@ tbody tr:nth-child(odd) {
   width: 2rem;
 }
 
+.qsonumber {
+  text-align: center;
+}
 
 @media only screen and (max-width: 600px) {
   table.qsotable {
-    width: 98vw;
+    width: 100vw;
   }
 }
 

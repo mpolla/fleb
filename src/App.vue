@@ -247,7 +247,10 @@ export default {
 
 <style>
 
-
+input[type=submit]  {
+  height: 1.4rem;
+  width: 5rem;
+}
 
 
 label {
