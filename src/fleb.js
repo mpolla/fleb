@@ -108,6 +108,12 @@ AdiWriter.prototype.writeAll = function(contacts) {
 AdiWriter.prototype.writeContact = function(contact) {
     let first = true;
     for (let key in contact) {
+
+        // Ignore FLEB meta attribute
+        if (key === "qsotimeknown") {
+            continue;
+        }
+
         if (first === true) {
             first = false;
         }
