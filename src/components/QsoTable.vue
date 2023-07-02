@@ -38,7 +38,7 @@
 
           <td v-if="show.col_station_callsign">{{ qso.station_callsign }}</td>
           <td v-if="show.col_date" class="datecell">{{ formatDate(qso) }}</td>
-          <td v-if="show.col_time" class="timecell">{{ formatTime(qso) }}</td>
+          <td v-if="show.col_time" :class="{ notime: !qso.qsotimeknown }" class="timecell">{{ formatTime(qso) }}</td>
           <td v-if="show.col_call"><span v-html="flag(qso.call)"></span>&nbsp;<a target="_new" :href="'https://qrz.com/db/' + qso.call">{{ qso.call }}</a></td>
           <td v-if="show.col_band">{{ qso.band !== null ? qso.band : "?" }}</td>
           <td v-if="show.col_mode">{{ qso.mode !== null ? qso.mode : "?"}}</td>
@@ -113,6 +113,10 @@ tbody tr:nth-child(odd) {
 
 .timecell {
   width: 2rem;
+}
+
+.notime {
+  color: #888;
 }
 
 .qsonumber {

@@ -700,8 +700,10 @@ const addQso = (qsoline) => {
 
     if (QHH !== null && QMM !== null) {
         uu.start = (new Date(DATE + "T" + QHH + ":" + QMM + ":00Z"));
+        uu.qsotimeknown = true;
     } else {
         uu.start = null;
+        uu.qsotimeknown = false;
     }
 
     uu.rst_sent = RSTS;
