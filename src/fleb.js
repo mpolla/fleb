@@ -224,6 +224,7 @@ let MYGRID = null;
 let DATE = null;
 let HOUR = "00";
 let MINUTE = "00";
+let TIME_SET_ON_PREVIOUS_ROW = false;
 let CALL = "";
 let BAND = null;
 let FREQ = null;
@@ -450,12 +451,16 @@ function handleBand(line) {
     }
 }
 
+/**
+ * Parse time with no connection to a spqcific qso (on a separate line).
+ */
 function handleTime(line) {
 
-  //  let timedata = line.trim().match(new RegExp(/([0-2][0-9])?[0-5]?[0-9]/, "im"));
+    if (! (new RegExp('^ *[0-9]+ *$', 'gim')).test(line)) {
+        return;
+    }
+
     let timedata = null; // line.match(new RegExp(/(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))/, "m"));
-
-
 
     let td1 = line.match(/^(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))$/m);
     let td2 = line.match(/^(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))\s/m);
@@ -467,20 +472,17 @@ function handleTime(line) {
     if (td3 !== null) { timedata = td3[0].trim(); }
     if (td4 !== null) { timedata = td4[0].trim(); }
 
-
-
-
-    //timedata = timedata[0];
-
-
     if (timedata !== null) {
         if (timedata.length === 1) {
             MINUTE = MINUTE.substring(0,1) + timedata;
+            TIME_SET_ON_PREVIOUS_ROW = true;
         } else if (timedata.length === 2) {
             MINUTE = timedata;
+            TIME_SET_ON_PREVIOUS_ROW = true;
         } else if (timedata.length === 4) {
             HOUR = timedata.substring(0,2);
             MINUTE = timedata.substring(2,4);
+            TIME_SET_ON_PREVIOUS_ROW = true;
         } else {
             console.log("Error: Can't parse time from " + timedata[1]);
         }
@@ -495,7 +497,6 @@ function parseTime(line) {
     let timedata = null;
 
     let trimmedline = line.split(callRegex)[0].trim();
-
 
     //           hhmm                 mm           m
     let rx = /\b([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9])\b/im;
@@ -513,7 +514,7 @@ function parseTime(line) {
     let td3 = trimmedline.match(/\s(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))$/m);
     // time
     let td4 = trimmedline.match(/\s(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))\s/m);
-     if (td1 !== null) { timedata = td1[0].trim(); }
+    if (td1 !== null) { timedata = td1[0].trim(); }
     else if (td2 !== null) { timedata = td2[0].trim(); }
     else if (td3 !== null) { timedata = td3[0].trim(); }
     else if (td4 !== null) { timedata = td4[0].trim(); }
@@ -531,6 +532,7 @@ function parseTime(line) {
         else if (timedata.length === 2) {
             QHOUR = HOUR;
             QMINUTE = timedata;
+            MINUTE = QMINUTE;
         }
         // Four digits --> update hour and minute
         else if (timedata.length === 4) {
@@ -661,8 +663,13 @@ const addQso = (qsoline) => {
          QMM = qsotime[1];
     }
 
-    //let endD = new Date(DATE + "T" + HOUR + ":" + MINUTE + ":00Z");
+    if (TIME_SET_ON_PREVIOUS_ROW == true && QHH == null && QMM == null) {
+        QHH = HOUR;
+        QMM = MINUTE;
+        TIME_SET_ON_PREVIOUS_ROW = false;
+    }
 
+    //let endD = new Date(DATE + "T" + HOUR + ":" + MINUTE + ":00Z");
 
     let qSTX = parseSTX(qsoline);
     let qSRX = parseSRX(qsoline);
@@ -970,8 +977,6 @@ const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false
             /\s(([0-2][0-9][0-5][0-9])|([0-5][0-9])|([0-9]))\s/mi.test(line)
         )
         {
-
-
             handleTime(line);
         }
 
