@@ -114,6 +114,10 @@ AdiWriter.prototype.writeContact = function(contact) {
             continue;
         }
 
+        if (contact[key] === null) {
+            continue;
+        }
+
         if (first === true) {
             first = false;
         }
@@ -133,7 +137,11 @@ AdiWriter.prototype.writeProperty = function(key, value) {
 
         let date = null;
         if (value !== null) {
-            date = new Date(value.toISOString());
+            try {
+                date = new Date(value.toISOString());
+            } catch (e) {
+                console.warn("Invalid date " + value);
+            }
         }
         this.writeField("qso_date", dateformat(date, "UTC:yyyymmdd"));
         this.data += " ";
