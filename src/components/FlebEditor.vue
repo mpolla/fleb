@@ -141,8 +141,13 @@ export default {
 .error {
   background-color: pink;
   text-align: center;
-  height: 1rem;
-  padding: .3rem 0;
+  height: 2rem;
+  font-size: 80%;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 }
 
 #notes {

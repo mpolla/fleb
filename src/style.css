@@ -233,7 +233,9 @@ label {
 }
 
 
-
+.hwt-container {
+    display: flex !important;
+}
 
 @media only screen and (max-width: 600px) {
 
