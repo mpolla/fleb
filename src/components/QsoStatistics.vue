@@ -1,7 +1,6 @@
 <template>
 
   <table class="flebstats">
-<!--    <tr><th class="headercol">Log start:</th><td>{{ (qsoData.length != 0 && qsoData[0].start !== null)? qsoData[0].start.toISOString().substring(0,16) + "Z" : "-"}}</td></tr>-->
 
     <tr><th class="headercol">Log start:</th><td class="timestampcell">{{ getStart(qsoData) }}</td></tr>
 
@@ -61,16 +60,12 @@ table {
 
 @media only screen and (max-width: 600px) {
   table.flebstats {
-    width: 100vw;
-  }
-  table.bandstats {
-    width: 99vw;
+    width: 100%;
   }
 
-
-.timestampcell {
-  min-width: 7rem;
-}
+  .timestampcell {
+    min-width: 7rem;
+  }
 
 
 }

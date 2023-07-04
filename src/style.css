@@ -259,7 +259,7 @@ label {
         justify-content: center;
         width: 100%;
         padding: 0;
-        margin: 0 auto;
+        margin: 0;
         /*background-color: #d8d8ff;*/
     }
 
@@ -268,12 +268,13 @@ label {
         grid-template-columns: auto;
         border: none;
         padding: 0;
-        margin: 0;
+        margin: 10px;
         width: 100%;
     }
     .grid-item {
         padding: 0;
         margin: 0;
+        width: 100%;
     }
 
     .flebmap {
@@ -293,7 +294,7 @@ label {
 
 
     .sidebar {
-        width: 100vw;
+        width: 100%;
     }
 
     /*.grid-item.header {*/

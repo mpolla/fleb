@@ -1,7 +1,5 @@
 <template>
 
-  <!--  <div id="app">-->
-
   <div class="grid-container">
 
     <div class="grid-item header">
@@ -95,9 +93,11 @@
     </div>
 
 
-    <div class="grid-item sidebar">
+    <div class="grid-item">
+      <div class="sidebar">
       <QsoStatistics :qsoData="kdata" v-if="show.statistics"/>
       <QsoTable v-if="show.list" :show="show" :qsolist="kdata"/>
+        </div>
     </div>
 
     <div class="grid-item footer">
@@ -105,8 +105,6 @@
     </div>
 
   </div>
-
-  <!--  </div>-->
 
 </template>
 
@@ -256,11 +254,6 @@ input[type=submit]  {
 label {
   white-space: nowrap;
 }
-
-
-
-
-
 
 </style>
 
