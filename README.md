@@ -1,5 +1,5 @@
 # FLEB - Fast Log Entry in-Browser
-
+65;7003;1c
 App live at https://mpolla.github.io/fleb/
 
 FLEB is a web application for efficient plaintext ham radio contact logging. Write contact logs
@@ -21,10 +21,10 @@ Feature comparison with [FLE by DF2CB](https://df3cb.com/fle/documentation/)
 | Off-line or real-time logging | ✅   | ✅           |
 | Interpolate log times         | ✅   | ✅           |
 | ADIF export                   | ✅   | ✅           |
+| Consecutive serial numbers    | ✅   | ✅           |
 | CSV export                    | ❌   | ✅           |
 | LoTW and eQSL upload          | ❌   | ✅           |
 | Keyboard shortcuts            | ❌   | ✅           |
-| Consecutive serial numbers    | ❌   | ✅           |
 
 ## TODO
 
