@@ -22,8 +22,8 @@
           <table class="qsodetails">
             <tr><th>Call</th><td>{{ kuso.call }}</td></tr>
             <tr><th>Grid</th><td>{{ kuso.gridsquare }}</td></tr>
-            <tr><th>Date</th><td>{{ kuso.start.toISOString().split("T")[0] }}</td></tr>
-            <tr><th>Time</th><td>{{ kuso.start.toISOString().split("T")[1].substring(0,5) }}</td></tr>
+<!--            <tr><th>Date</th><td>{{ kuso.start.toISOString().split("T")[0] }}</td></tr>-->
+<!--            <tr><th>Time</th><td>{{ kuso.start.toISOString().split("T")[1].substring(0,5) }}</td></tr>-->
           </table>
         </l-tooltip>
       </l-marker>
