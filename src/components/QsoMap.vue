@@ -4,7 +4,9 @@
 
 
   <div class="leaflet-container flebmap">
-    <l-map v-model:zoom="zoom" :center="(qsoData !== null && qsoData.length > 0) ? gridtokood(qsoData[qsoData.length-1].gridsquare) : [51, 0]" :options="{scrollWheelZoom: false}">
+    <!--    <l-map ref="map" :zoom="methodZoom()" :center="methodCenter()" :options="{scrollWheelZoom: false, dragging: false, zoomAnimation: true}">-->
+    <l-map ref="map" :zoom="1" :center="[35, 0]" :options="{scrollWheelZoom: false, dragging: false, zoomAnimation: true, maxZoom: 8}">
+
       <l-tile-layer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
@@ -12,15 +14,16 @@
       ></l-tile-layer>
 
       <!-- mygrid -->
-      <l-marker v-if="qsoData !== null && qsoData.length > 0 && qsoData[0].my_gridsquare !== undefined" :lat-lng="gridtokood(qsoData[0].my_gridsquare)" :icon="torni"/>
+      <l-marker v-if="qthgrid !== null" :lat-lng="gridtokood(qthgrid)" :icon="torni"/>
 
       <!-- grid -->
       <l-marker v-if="qsoData !== null" v-for="(kuso, index) in qsoData.filter(it => it.gridsquare !== undefined)" :lat-lng="gridtokood(kuso.gridsquare)" :icon="igoni">
         <l-tooltip>
-          <table>
-            <tr v-for="(value, key) in kuso">
-              <th>{{ key }}</th><td>{{ value }}</td>
-            </tr>
+          <table class="qsodetails">
+            <tr><th>Call</th><td>{{ kuso.call }}</td></tr>
+            <tr><th>Grid</th><td>{{ kuso.gridsquare }}</td></tr>
+            <tr><th>Date</th><td>{{ kuso.start.toISOString().split("T")[0] }}</td></tr>
+            <tr><th>Time</th><td>{{ kuso.start.toISOString().split("T")[1].substring(0,5) }}</td></tr>
           </table>
         </l-tooltip>
       </l-marker>
@@ -30,12 +33,7 @@
 
     </l-map>
 
-
   </div>
-
-
-
-
 
 </template>
 
@@ -55,13 +53,24 @@ import {
 
 } from "@vue-leaflet/vue-leaflet";
 
+import { ref, onMounted, nextTick } from 'vue'
+
+
+
+
 export default {
+
+
+
+
   components: {
     LMap, LTileLayer, LMarker, LPolyline, LTooltip
   },
-  props: ['qsoData'],
+  props: ['qsoData', 'qthgrid'],
   data() {
     return {
+      adifLabels: { call: "Call sign"},
+      map: null,
       zoom: 2,
       igoni: L.icon({
         iconUrl: Pin,
@@ -75,7 +84,27 @@ export default {
       })
     };
   },
+
+  watch: {
+
+    /** Fit map to own QTH and DX grid locations. */
+    qsoData: function (val) {
+      this.$nextTick(() => {
+        if (val !== null) {
+          let coords = val.map(it => this.gridtokood(it.gridsquare));
+          if (this.qthgrid !== null) {
+            coords.push(this.gridtokood(this.qthgrid));
+          }
+          if (coords.length > 0) {
+            this.$refs.map.leafletObject.fitBounds(coords, {padding: [15, 15]});
+          }
+        }
+      })
+    }
+  },
+
   methods: {
+
     iconUrl() {
       return Pin;
     },
@@ -89,9 +118,6 @@ export default {
       } else {
         return null;
       }
-    },
-    makeTooltip(kuso) {
-      return "Call: " + kuso.call + "<br/>" + "Grid: " + kuso.gridsquare;
     }
   }
 };
@@ -116,7 +142,6 @@ export default {
     min-width: 200px;
     box-sizing: border-box;
   }
-
 
   div.leaflet-container {
     width: 100%;

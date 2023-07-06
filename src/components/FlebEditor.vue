@@ -28,6 +28,7 @@ export default {
   watch: {
     nootit: {
       handler(newNootit, oldNootit) {
+        this.$parent.qthgrid = this.parseqthgrid(newNootit);
         this.myValue = makeJsonArray(newNootit, this.$props.interpolate);
         this.errorMsg = this.validate(newNootit, this.myValue);
         this.$parent.kdata = this.myValue;
@@ -36,9 +37,18 @@ export default {
     }
   },
 
-
-
   methods: {
+
+    parseqthgrid (notes) {
+      let matches = notes.match(new RegExp("(?<=mygrid )[a-z]{2}[0-9]{2}[a-z0-9]*"));
+      if (matches !== null && matches.length > 0) {
+        console.log("Set qthgrid " + matches[0]);
+        return matches[0];
+      }
+      return null;
+    },
+
+
     validate (newNootit, data) {
 
       // Validate text
@@ -46,7 +56,7 @@ export default {
       if (!/date/.test(newNootit)) {
         return "Please insert date as 'date yyyy-mm-dd'";
       }
-      if (!/mycall/.test(newNootit)) {
+      if (!/mycall ./.test(newNootit)) {
         return "Please add your own radio call sign as 'mycall xx1yyy";
       }
 

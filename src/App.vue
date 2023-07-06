@@ -89,7 +89,7 @@
 
     <div class="grid-item">
       <FlebEditor :realtimemode="realtimemode" :interpolate="interpolate"/>
-      <QsoMap v-if="show.map" :qsoData="kdata"/>
+      <QsoMap v-if="show.map" :qsoData="kdata" :qthgrid="qthgrid"/>
     </div>
 
 
@@ -152,6 +152,7 @@ export default {
       count: 0,
       zoom: 2,
       kdata: [],
+      qthgrid: null,
 
 
       realtimemode: false,

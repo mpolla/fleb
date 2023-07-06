@@ -197,7 +197,6 @@ input {
 }
 
 .toolbar {
-    horiz-align: center;
     padding: .1rem 0;
 }
 
@@ -268,8 +267,8 @@ label {
         grid-template-columns: auto;
         border: none;
         padding: 0;
-        margin: 10px;
-        width: 100%;
+        margin: 6px;
+        width: 97%;
     }
     .grid-item {
         padding: 0;
