@@ -4,7 +4,7 @@ const {notes, mode} = require("./fields");
 const {trim} = require("jquery");
 
 
-
+const wsjtmodes = ["JT65", "JT9", "JT6M", "JT4", "JT44", "FSK441", "FT8", "FT4", "ISCAT", "MSK144", "QRA64", "T10", "WSPR"];
 
 const modelist = ["bar", "cw", "ssb", "am", "fm", "rtty", "ft8", "ft4", "psk", "jt65", "jt9", "ardop", "atv", "c4fm", "chip", "clo",
     "contesti", "digitalvoice", "domino", "dstar", "fa", "fsk441", "hell", "iscat", "js8", "jt4", "jt6m",
@@ -238,7 +238,7 @@ let MYGRID = null;
 let DATE = null;
 let HOUR = "00";
 let MINUTE = "00";
-let TIME_SET_ON_PREVIOUS_ROW = false;
+let FREQ_SET_ON_CURRENT_ROW = false;
 let CALL = "";
 let BAND = null;
 let FREQ = null;
@@ -489,14 +489,14 @@ function handleTime(line) {
     if (timedata !== null) {
         if (timedata.length === 1) {
             MINUTE = MINUTE.substring(0,1) + timedata;
-            TIME_SET_ON_PREVIOUS_ROW = true;
+            FREQ_SET_ON_CURRENT_ROW = true;
         } else if (timedata.length === 2) {
             MINUTE = timedata;
-            TIME_SET_ON_PREVIOUS_ROW = true;
+            FREQ_SET_ON_CURRENT_ROW = true;
         } else if (timedata.length === 4) {
             HOUR = timedata.substring(0,2);
             MINUTE = timedata.substring(2,4);
-            TIME_SET_ON_PREVIOUS_ROW = true;
+            FREQ_SET_ON_CURRENT_ROW = true;
         } else {
             console.log("Error: Can't parse time from " + timedata[1]);
         }
@@ -578,6 +578,8 @@ const resetData = () => {
     MYSOTA = null;
     MYPOTA = null;
     OPERATOR = null;
+    NICK = null;
+    GLOBALQSLMSG = null;
     STX = null;
 }
 
@@ -605,9 +607,24 @@ function parseCall(qsoline) {
 const addQso = (qsoline) => {
 
     // Default to 59/59
-    let RSTS = "59";
-    let RSTR = "59";
-    let rsts = qsoline.match(/(?<=[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM))?.* +)[1-9]{1,3}\b([1-9]{1,3})?/gim);
+
+    let RSTS = null;
+    let RSTR = null;
+    if (wsjtmodes.includes(MODE)) {
+        RSTS = "-10";
+        RSTR = "-10";
+    } else {
+        RSTS = "59";
+        RSTR = "59";
+    }
+
+    let rsts = null;
+    if (!wsjtmodes.includes(MODE)) {
+        rsts = qsoline.match(/(?<=[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM))?.* +)[1-9]{1,3}\b([1-9]{1,3})?/gim);
+    } else {
+        rsts = qsoline.match(/(?<=[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM))?.* +)\-[0-9]+\b(\-[0-9]+)?/gim);
+    }
+
 
     if (rsts != null) {
         let rands = rsts;
@@ -677,10 +694,10 @@ const addQso = (qsoline) => {
          QMM = qsotime[1];
     }
 
-    if (TIME_SET_ON_PREVIOUS_ROW == true && QHH == null && QMM == null) {
+    if (FREQ_SET_ON_CURRENT_ROW == true && QHH == null && QMM == null) {
         QHH = HOUR;
         QMM = MINUTE;
-        TIME_SET_ON_PREVIOUS_ROW = false;
+        FREQ_SET_ON_CURRENT_ROW = false;
     }
 
     //let endD = new Date(DATE + "T" + HOUR + ":" + MINUTE + ":00Z");
@@ -727,9 +744,7 @@ const addQso = (qsoline) => {
 
     }
 
-
     uu.rst_rcvd = RSTR;
-
 
     if (qSRX !== null) {
         uu.srx = qSRX.toString().padStart(3, '0');
@@ -826,6 +841,7 @@ function interpolateTimes(qsos) {
 
                 if (qsoy.start != null && interpolateStart != null) {
                     let interpolateTo = qsoy.start;
+
                     for (let k=i; k<=j-1; k++) {
                         let stepno = k-i+1;
                         let rangelen = j-i;
@@ -834,7 +850,7 @@ function interpolateTimes(qsos) {
                         let interpTime = new Date(Math.round(factorB * interpolateStart.getTime()) + Math.round(factorA * interpolateTo.getTime()));
                         qsos[k].start = new Date(interpTime);
                     }
-                    i = j;
+                    i = 0;
                     j = qsos.length;
                 }
             }
@@ -913,7 +929,12 @@ const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false
     MINUTE = "00";
     STX = null;
 
+
+
     for (let i = 0; i < lines.length; i++) {
+
+        let FREQ_SET_ON_THIS_LINE = false;
+
         let line = lines[i];
 
         if (line.match(/mycall /)) {
@@ -923,6 +944,9 @@ const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false
 
         if (line.match(/mygrid /)) {
             MYGRID = parseGrid(line);
+            if (MYGRID != null) {
+                MYGRID = MYGRID.substring(0, 2).toUpperCase() + MYGRID.substring(2, MYGRID.length);
+            }
             continue;
         }
 
@@ -952,6 +976,7 @@ const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false
             let res = line.match(/[0-9]*\.[0-9]+/im);
             if (res != null) {
                 FREQ = res[0];
+                FREQ_SET_ON_THIS_LINE = true;
             }
         }
 
@@ -970,6 +995,9 @@ const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false
         let mode = parseMode(line);
         if (mode != null) {
             MODE = mode;
+            if (!FREQ_SET_ON_THIS_LINE) {
+                FREQ = null;
+            }
         }
 
         if (line.match(regexBand)) {

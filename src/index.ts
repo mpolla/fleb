@@ -45,7 +45,10 @@ const highlightRegexCommentline = /^#.*$/mg;
 
 const regexFreq = /(?<=\s)[0-9]+\.[0-9]{1,}(?=\s)/gim;
 
-const regexRst = /(?<=[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM|[0-9]))?.* +)[1-9]{1,3}( +[1-9]{1,3})?(?=\s)/gim;
+const regexRst = /(?<=[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM|[0-9]))?.* +)[1-9]{1,3}( +[1-9]{1,3})?(?=[\s$])/gim;
+const regexDigiRst = /(?<=[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM|[0-9]))?.* +)-[01]?[0-9]( +[01]?[0-9])?(?=[\s$])/gim;
+
+
 const regexQsocomment = /(?<=\s*)<.*>(?=\s)/gim;
 const regexQslmsg = /(?<=\s*)\[.*\](?=\s)/gim;
 
@@ -122,6 +125,13 @@ import './jquery.highlight-within-textarea.css';
             highlight: regexRst,
             className: 'fleb-rst'
         },
+
+
+        {
+            highlight: regexDigiRst,
+            className: 'fleb-rst'
+        },
+
         {
             highlight: regexQsocomment,
             className: 'fleb-qsocomment'
