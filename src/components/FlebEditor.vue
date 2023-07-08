@@ -163,7 +163,7 @@ export default {
 #notes {
   width: 26rem;
   height: 31rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.3);
   font-family: monospace;
   margin: 0;
   padding: 0;
