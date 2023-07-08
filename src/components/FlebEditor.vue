@@ -40,9 +40,8 @@ export default {
   methods: {
 
     parseqthgrid (notes) {
-      let matches = notes.match(new RegExp("(?<=mygrid )[a-z]{2}[0-9]{2}[a-z0-9]*"));
+      let matches = notes.match(new RegExp("(?<=mygrid )[a-z]{2}[0-9]{2}[a-z0-9]*", "i"));
       if (matches !== null && matches.length > 0) {
-        console.log("Set qthgrid " + matches[0]);
         return matches[0];
       }
       return null;
@@ -52,7 +51,6 @@ export default {
     validate (newNootit, data) {
 
       // Validate text
-
       if (!/date/.test(newNootit)) {
         return "Please insert date as 'date yyyy-mm-dd'";
       }
