@@ -10,7 +10,6 @@ const FLEB_ID = "<PROGRAMID:4>FLEB";
 
 var fs = require("fs");
 
-
 test('Parse call', () => {
   expect(parseCall("on1on")).toBe("ON1ON");
 
@@ -177,4 +176,12 @@ test('Test fle cli\'s grid example file', () => {
       .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
       .replace(FLE_ID, FLEB_ID);
   expect(printAdif(makeJsonArray(txt, false, true), true)).toBe(adi);
+})
+
+test('FLEB\'s own demo file flebdemo.txt (incl. ft8 rsts)', () => {
+  let txt = fs.readFileSync("./src/test/flebdemo.txt").toString('utf-8');
+  let adi = fs.readFileSync("./src/test/flebdemo.adi").toString('utf-8')
+      .replace(FLE_ADIF_HEADER, FLEB_ADIF_HEADER)
+      .replace(FLE_ID, FLEB_ID);
+  expect(printAdif(makeJsonArray(txt, true, false), true)).toBe(adi);
 })

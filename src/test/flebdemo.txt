@@ -1,0 +1,29 @@
+# Header
+mycall oh2cme/p
+mygrid kp20lg
+mywwff ohff-1395
+operator oh2cme
+
+# Log
+date 2023-07-07
+
+20m cw 14.044
+
+1826 sm1abc #JO76
+la1zyz #JP50
+f2abc #JN24
+30 f2xyz
+31 pa2abc
+ik4asd
+iw2abc #JN54
+
+10m ssb
+
+50 dl1xyz #JN68
+dl4asd @Oliver
+es4fds #IN80 57 esff-0123
+
+10m ft8
+
+1902 ut3abc #KN59
+k4abc #FN75 15m jt65 -17 -12
