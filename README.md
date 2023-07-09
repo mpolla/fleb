@@ -11,20 +11,21 @@ Original implementation for Windows, see https://df3cb.com/fle/
 
 Feature comparison with [FLE by DF2CB](https://df3cb.com/fle/documentation/)
 
-| Feature                       | FLEB | FLE by DF3CB |
-|-------------------------------|------|--------------|
-| Regular logging               | ✅   | ✅           |
-| Contest logging               | ✅   | ✅           |
-| WWFF logging                  | ✅   | ✅           |
-| SOTA logging                  | ✅   | ✅           |
-| POTA logging                  | ✅   | ✅           |
-| Off-line or real-time logging | ✅   | ✅           |
-| Interpolate log times         | ✅   | ✅           |
-| ADIF export                   | ✅   | ✅           |
-| Consecutive serial numbers    | ✅   | ✅           |
-| CSV export                    | ❌   | ✅           |
-| LoTW and eQSL upload          | ❌   | ✅           |
-| Keyboard shortcuts            | ❌   | ✅           |
+| Feature                        | FLEB | FLE by DF3CB |
+|--------------------------------|------|--------------|
+| Regular logging                | ✅    | ✅            |
+| Contest logging                | ✅    | ✅            |
+| WWFF logging                   | ✅    | ✅            |
+| SOTA logging                   | ✅    | ✅            |
+| POTA logging                   | ✅    | ✅            |
+| Off-line or real-time logging  | ✅    | ✅            |
+| Interpolate log times          | ✅    | ✅            |
+| ADIF export                    | ✅    | ✅            |
+| Consecutive serial numbers     | ✅    | ✅            |
+| CSV export                     | ❌    | ✅            |
+| LoTW and eQSL upload           | ❌    | ✅            |
+| Keyboard shortcuts             | ❌    | ✅            |
+| Enforce correct frequency/band | ❌    | ✅            |
 
 ## TODO
 
