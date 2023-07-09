@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       //nootit: 'mycall oh2cme\noperator oh2cme\nmygrid KP20lf\n\ndate 2023-05-28\n20m cw\n14.044\n\n1533\n34 ik1xr @Paolo < message > { comment } #JN53er\n10m ssb\nla/oh1xy/p laff-0123\n58 oz4ek 577\n80m ssb\ns53cq\nfa4psq\non3ed #IO91wm',
-      nootit: '# Header\nmycall \nmygrid\noperator \n\n# Log\ndate ' + (new Date()).toISOString().substring(0, 10) + '\n',
+      nootit: '# Header\nmycall \nmygrid \noperator \n\n# Log\ndate ' + (new Date()).toISOString().substring(0, 10) + '\n',
       //nootit: '',
       noottijson: '',
       myValue: '',
@@ -165,6 +165,7 @@ export default {
   font-family: monospace;
   margin: 0;
   padding: 0;
+  caret-color: #222222;
 }
 
 @media only screen and (max-width: 600px) {
