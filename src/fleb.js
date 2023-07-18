@@ -79,7 +79,9 @@ const flagmap = {
     // Austria
     "oe": "🇦🇹",
     // Croatia
-    "9a": "🇭🇷"
+    "9a": "🇭🇷",
+    // Switzerland
+    "hb": "🇨🇭"
 };
 
 
