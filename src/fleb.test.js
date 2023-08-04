@@ -1,4 +1,4 @@
-const { parseName, parseGrid, parseComment, parseQslmessage, printAdif, parseCall, parseTime, parseMode, parseNick, detectband, parseSTX, parseSRX } = require("./fleb.js");
+const { parseName, parseGrid, parseComment, parseQslmessage, printAdif, parseCall, parseTime, parseMode, parseNick, detectband, parseSTX, parseSRX } = require("./fleb");
 const {makeJsonArray, parseSotaref, parsePotaref} = require("./fleb");
 
 
@@ -8,7 +8,7 @@ const FLEB_ADIF_HEADER = "ADIF Export for Fast Log Entry in-Browser by OH2CME";
 const FLE_ID = "<PROGRAMID:3>FLE";
 const FLEB_ID = "<PROGRAMID:4>FLEB";
 
-var fs = require("fs");
+const fs = require("fs");
 
 test('Parse call', () => {
   expect(parseCall("on1on")).toBe("ON1ON");

@@ -18,6 +18,7 @@ const callRegex = RegExp(/(?<=[\s0-9]*)([a-z0-9]{1,3}\/)?\d?[a-z]{1,2}\d{1,4}[a-
 const sotaRefRegex = RegExp(/[a-z]{1,2}\/[a-z]{2}-[0-9]{3}/, 'im');
 const potaRefRegex = RegExp(/[a-z]{1,2}-[0-9]{4}/, 'im');
 
+const MY_SIG_WWFF = "WWFF";
 
 const flagmap = {
     // Finland
@@ -95,6 +96,19 @@ let AdiWriter = function(programversion) {
     this.data += "\n<EOH>\n";
 };
 
+interface AdiWriter {
+    data: String
+
+    writeContact(obj: Object): void
+
+    writeProperty(obj: Object, obj: Object): void
+
+    writeField(obj: String, obj: String): void
+
+    writeAll(obj: Object): String
+}
+
+
 AdiWriter.prototype.getData = function() {
     return this.data;
 }
@@ -116,7 +130,7 @@ AdiWriter.prototype.writeContact = function(contact) {
             continue;
         }
 
-        if (contact[key] === null) {
+        if (contact[key] === null || contact[key] === undefined) {
             continue;
         }
 
@@ -170,8 +184,11 @@ AdiWriter.prototype.writeProperty = function(key, value) {
 };
 
 AdiWriter.prototype.writeField = function(key, value) {
-    this.data += "<" + key.toUpperCase() + ":" + value.length + ">";
-    this.data += value;
+    if (value !== undefined && value !== null) {
+        this.data += "<" + key.toUpperCase() + ":" + value.length + ">";
+        this.data += value;
+    }
+
 }
 
 const parseName = (line) => {
@@ -238,6 +255,7 @@ let MYCALL = null;
 let MYGRID = null;
 
 let DATE = null;
+let TIME = null;
 let HOUR = "00";
 let MINUTE = "00";
 let FREQ_SET_ON_CURRENT_ROW = false;
@@ -300,7 +318,8 @@ const printAdif = (jsonit, raw) => {
 
     // Use CRLF for newlines for FLE compatibility
     if (!raw) {
-        out = adiWriter.writeAll(outjson).replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        const tmpOut : String = adiWriter.writeAll(outjson)
+        out = tmpOut.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     } else {
         out = adiWriter.writeAll(outjson);
     }
@@ -335,14 +354,16 @@ const fileNameString = () => {
 
 const downloadAdif = () => {
 
-    let nootit = document.getElementById('notes').value;
+    const notesElem = document.getElementById('notes') as HTMLInputElement | null;
+    let nootit = notesElem?.value
+
     let jnootit = makeJsonArray(nootit);
 
     let fil = fileNameString() + ".adi";
 
     // Generate .adi data
     let adiWriter = new AdiWriter("0.1");
-    let adiData = adiWriter.writeAll(jnootit);
+    let adiData : String = adiWriter.writeAll(jnootit);
 
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(adiData));
@@ -355,7 +376,8 @@ const downloadAdif = () => {
 
 
 const downloadCsv = () => {
-    let nootit = document.getElementById('notes').value;
+    const nootitElem = document.getElementById('notes') as HTMLInputElement | null;
+    const nootit = nootitElem?.value
     let jnootit = makeJsonArray(nootit);
     let fil = fileNameString() + ".csv";
     // TODO JSON to CSV
@@ -372,7 +394,8 @@ const downloadCsv = () => {
 
 
 const downloadTxt = () => {
-    let nootit = document.getElementById('notes').value;
+    const nootitElem = document.getElementById('notes') as HTMLInputElement | null
+    const nootit = nootitElem?.value;
     let fil = fileNameString() + ".txt";
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(nootit));
@@ -718,10 +741,29 @@ const addQso = (qsoline) => {
         "station_callsign": MYCALL,
         "call": CALL,
         //"date": DATE,
-        "start": null, //startD.toISOString(),
+        "start": null as Date, //startD.toISOString(),
         //"end": endD.toISOString(),
         "band": BAND,
-        "mode": MODE !== null ? MODE.toUpperCase() : null
+        "mode": MODE !== null ? MODE.toUpperCase() : null,
+        freq: undefined as String,
+        qsotimeknown: undefined as boolean,
+        rst_sent: undefined as String,
+        stx: null as String,
+        rst_rcvd: undefined as String,
+        srx: undefined as String,
+        gridsquare: undefined as String,
+        comment: undefined as String,
+        name: undefined as String,
+        qslmsg: undefined as String,
+        my_sig: undefined as String,
+        my_sig_info: undefined as String,
+        sig: undefined as String,
+        sig_info: undefined as String,
+        my_sota_ref: undefined,
+        sota_ref: undefined as String,
+        operator: undefined as String,
+        app_eqsl_qth_nickname: undefined as String,
+        my_gridsquare: undefined as String
     };
 
     if (FREQ != null) {
@@ -770,7 +812,7 @@ const addQso = (qsoline) => {
 
     // Set MY_SIG only if own WWFF or POTA reference is set
     if (MYWWFF != null) {
-        uu.my_sig = "WWFF";
+        uu.my_sig = MY_SIG_WWFF;
         uu.my_sig_info = MYWWFF;
     }
     if (MYPOTA != null) {
@@ -892,31 +934,23 @@ function fillTimes(qsos) {
     return qsos;
 }
 
+/**
+ * Insert serial number (beginning with 001) to all QSOs.
+ *
+ * @param qsos List of QSOs.
+ */
 function fixSerials(qsos) {
     let serial = 1;
-    //const serials = qsos.find(el => el.stx !== undefined);
-    //if (serials !== undefined) {
-        for (let i = 0; i < qsos.length; i++) {
-            if (qsos[i].stx == undefined) {
-
-                let newObj = {};
-                for (const [key, value] of Object.entries(qsos[i])) {
-                    newObj[key] = value;
-                    if (key == "rst_sent") {
-                        newObj.stx = serial.toString().padStart(3, '0');
-                        serial++;
-                    }
-
+    for (let i = 0; i < qsos.length; i++) {
+        if (qsos[i].stx === null) {
+            for (const [key, value] of Object.entries(qsos[i])) {
+                if (key == "rst_sent") {
+                    qsos[i].stx = serial.toString().padStart(3, '0');
+                    serial++;
                 }
-                qsos[i] = newObj;
-
-
-
-                // qsos[i].stx = serial.toString().padStart(3, '0');
-                // serial++;
             }
         }
-    //}
+    }
     return qsos;
 }
 
@@ -930,8 +964,6 @@ const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false
     HOUR = "00";
     MINUTE = "00";
     STX = null;
-
-
 
     for (let i = 0; i < lines.length; i++) {
 
@@ -1049,8 +1081,8 @@ const handleMywwff = (line) => {
 
 const previewAdif = () => {
     let newWindow = window.open("", "newWindow", "width=800, height=600");
-
-    let notes = document.getElementById('notes').value;
+    const notesElem = document.getElementById('notes') as HTMLInputElement | null
+    let notes = notesElem?.value;
     let jnootit = makeJsonArray(notes);
     newWindow.document.write('<div class="adif-preview">');
     newWindow.document.write(printAdif(jnootit, false));

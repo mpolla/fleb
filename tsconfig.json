@@ -5,7 +5,7 @@
         "noImplicitAny": true,
         "target": "es2016",
         "lib": [
-            "es2017",
+            "es2021",
             "dom",
             "scripthost"
         ],

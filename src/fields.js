@@ -1,37 +1,55 @@
 //var datetime = require("./datetime");
 //var dateformat = require("dateformat");
 
-var NumberField = {
-    decode: function(value) { return parseFloat(value); },
-    encode: function(value) { return value ? value.toString() : "0"; }
+const NumberField = {
+    decode: function (value) {
+        return parseFloat(value);
+    },
+    encode: function (value) {
+        return value ? value.toString() : "0";
+    }
 };
 
-var BooleanField = {
-    decode: function(value) { return value == "Y" || value == "y"; },
-    encode: function(value) { return value ? "Y" : "N"; }
+const BooleanField = {
+    decode: function (value) {
+        return value == "Y" || value == "y";
+    },
+    encode: function (value) {
+        return value ? "Y" : "N";
+    }
 };
 
-var EnumField = {
-    decode: function(value) { return value; },
-    encode: function(value) { return value; }
+const EnumField = {
+    decode: function (value) {
+        return value;
+    },
+    encode: function (value) {
+        return value;
+    }
 };
 
-var StringField = {
-    decode: function(value) { return value; },
-    encode: function(value) { return value.toString(); }
+const StringField = {
+    decode: function (value) {
+        return value;
+    },
+    encode: function (value) {
+        return value !== undefined ? value.toString() : null;
+    }
 };
 
-var DateField = {
-    decode: function(value) {
-      var date = datetime.readDate(value, new Date());
-      //date.setUTCHours(0, 0, 0, 0);
-      return date.toJSON();
+const DateField = {
+    decode: function (value) {
+        var date = datetime.readDate(value, new Date());
+        //date.setUTCHours(0, 0, 0, 0);
+        return date.toJSON();
     },
     //encode: function(value) { return dateformat(new Date(value), "UTC:yyyymmdd"); }
-    encode: function(value) { return "UTC:yyyymmdd"; }
-}
+    encode: function (value) {
+        return "UTC:yyyymmdd";
+    }
+};
 
-var MultilineField = StringField;
+const MultilineField = StringField;
 
 module.exports = {
     "adif_ver": StringField,
