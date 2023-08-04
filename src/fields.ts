@@ -1,6 +1,3 @@
-//var datetime = require("./datetime");
-//var dateformat = require("dateformat");
-
 const NumberField = {
     decode: function (value) {
         return parseFloat(value);
@@ -37,18 +34,6 @@ const StringField = {
     }
 };
 
-const DateField = {
-    decode: function (value) {
-        var date = datetime.readDate(value, new Date());
-        //date.setUTCHours(0, 0, 0, 0);
-        return date.toJSON();
-    },
-    //encode: function(value) { return dateformat(new Date(value), "UTC:yyyymmdd"); }
-    encode: function (value) {
-        return "UTC:yyyymmdd";
-    }
-};
-
 const MultilineField = StringField;
 
 module.exports = {
@@ -69,7 +54,6 @@ module.exports = {
     "call": StringField,
     "check": StringField,
     "class": StringField,
-    "clublog_qso_upload_date": DateField,
     "clublog_qso_upload_status": EnumField,
     "cnty": EnumField,
     "comment": StringField,
@@ -82,8 +66,6 @@ module.exports = {
     "dxcc": NumberField,
     "email": StringField,
     "eq_call": StringField,
-    "eqsl_qslrdate": DateField,
-    "eqsl_qslsdate": DateField,
     "eqsl_qsl_rcvd": EnumField,
     "eqsl_qsl_sent": EnumField,
     "freq": NumberField,
@@ -96,8 +78,6 @@ module.exports = {
     "k_index": NumberField,
     "lat": StringField,
     "lon": StringField,
-    "lotw_qslrdate": DateField,
-    "lotw_qslsdate": DateField,
     "lotw_qsl_rcvd": EnumField,
     "lotw_qsl_sent": EnumField,
     "max_bursts": NumberField,
@@ -131,8 +111,6 @@ module.exports = {
     "prop_mode": EnumField,
     "public_key": StringField,
     "qslmsg": MultilineField,
-    "qslrdate": DateField,
-    "qslsdate": DateField,
     "qsl_rcvd": EnumField,
     "qsl_rcvd_via": EnumField,
     "qsl_sent": EnumField,

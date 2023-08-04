@@ -1,9 +1,0 @@
-
-
-
-
-
-
-
-
-//exports.AdiWriter = AdiWriter;

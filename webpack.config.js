@@ -60,6 +60,10 @@ module.exports = {
         publicPath: "/fleb/",
         filename: '[name].js',
         assetModuleFilename: 'asset/[name][ext]'
+    },
+
+    resolve: {
+        extensions: ['.ts', '.js', '.json']
     }
 
 };

@@ -1,19 +1,17 @@
 const dateformat = require("dateformat");
-let fields = require("./fields.js");
-const {notes, mode} = require("./fields");
-const {trim} = require("jquery");
+let fields = require("./fields.ts");
 
 
 const wsjtmodes = ["JT65", "JT9", "JT6M", "JT4", "JT44", "FSK441", "FT8", "FT4", "ISCAT", "MSK144", "QRA64", "T10", "WSPR"];
 
-const modelist = ["bar", "cw", "ssb", "am", "fm", "rtty", "ft8", "ft4", "psk", "jt65", "jt9", "ardop", "atv", "c4fm", "chip", "clo",
+export const modelist = ["bar", "cw", "ssb", "am", "fm", "rtty", "ft8", "ft4", "psk", "jt65", "jt9", "ardop", "atv", "c4fm", "chip", "clo",
     "contesti", "digitalvoice", "domino", "dstar", "fa", "fsk441", "hell", "iscat", "js8", "jt4", "jt6m",
     "jt44", "mfsk", "msk144", "mt63", "olivia", "opera", "pac", "pax", "pkt", "psk2k", "q15", "qra64", "ros",
     "rttym", "sstv", "t10", "thor", "thrb", "tor", "v4", "voi", "winmor", "wspr"];
 
 const regexBand = RegExp(/(?<=\b)((2190|630|560|160|80|60|40|30|20|17|15|12|10|6|4|2|1\.25|70c|33c|23c|13c|9c|6c|3c|1\.25m|6m|4m|2\.5m|2m|1m)m)(?=\b)/, 'gm');
 
-const callRegex = RegExp(/(?<=[\s0-9]*)([a-z0-9]{1,3}\/)?\d?[a-z]{1,2}\d{1,4}[a-z]{0,6}(\d[a-z])?(\/[0-9a-z]{1,3})?/, 'im');
+export const callRegex = RegExp(/(?<=[\s0-9]*)([a-z0-9]{1,3}\/)?\d?[a-z]{1,2}\d{1,4}[a-z]{0,6}(\d[a-z])?(\/[0-9a-z]{1,3})?/, 'im');
 
 const sotaRefRegex = RegExp(/[a-z]{1,2}\/[a-z]{2}-[0-9]{3}/, 'im');
 const potaRefRegex = RegExp(/[a-z]{1,2}-[0-9]{4}/, 'im');
@@ -87,7 +85,7 @@ const flagmap = {
 
 
 // Originally from https://www.npmjs.com/package/adif
-let AdiWriter = function(programversion) {
+let AdiWriter = function(programversion: String) {
     this.data = "ADIF Export for Fast Log Entry in-Browser by OH2CME\n";
     this.writeField("programid", "FLEB");
     this.data += "\n";
@@ -101,9 +99,9 @@ interface AdiWriter {
 
     writeContact(obj: Object): void
 
-    writeProperty(obj: Object, obj: Object): void
+    writeProperty(obj1: Object, obj2: Object): void
 
-    writeField(obj: String, obj: String): void
+    writeField(obj3: String, obj4: String): void
 
     writeAll(obj: Object): String
 }
@@ -113,7 +111,7 @@ AdiWriter.prototype.getData = function() {
     return this.data;
 }
 
-AdiWriter.prototype.writeAll = function(contacts) {
+AdiWriter.prototype.writeAll = function(contacts: Object[]) {
     for (let i = 0; i < contacts.length; i++) {
         this.writeContact(contacts[i]);
     }
@@ -121,7 +119,7 @@ AdiWriter.prototype.writeAll = function(contacts) {
 };
 
 // Originally from https://www.npmjs.com/package/adif
-AdiWriter.prototype.writeContact = function(contact) {
+AdiWriter.prototype.writeContact = function(contact: Object) {
     let first = true;
     for (let key in contact) {
 
@@ -130,7 +128,7 @@ AdiWriter.prototype.writeContact = function(contact) {
             continue;
         }
 
-        if (contact[key] === null || contact[key] === undefined) {
+        if (contact[key as keyof Object] === null || contact[key as keyof Object] === undefined) {
             continue;
         }
 
@@ -140,15 +138,15 @@ AdiWriter.prototype.writeContact = function(contact) {
         else {
             this.data += " ";
         }
-        this.writeProperty(key, contact[key]);
+        this.writeProperty(key, contact[key as keyof Object]);
     }
     this.data += " <EOR>\n";
 };
 
 // Originally from https://www.npmjs.com/package/adif
-AdiWriter.prototype.writeProperty = function(key, value) {
-    if (key === "_id") key = "app_cloudshack_id";
-    else if (key === "_rev") key = "app_cloudshack_rev";
+AdiWriter.prototype.writeProperty = function(key: any, value: any) {
+    if (key === "_id") key = "app_cloudshack_id" as keyof Object;
+    else if (key === "_rev") key = "app_cloudshack_rev" as keyof Object;
     else if (key === "start") {
 
         let date = null;
@@ -183,7 +181,7 @@ AdiWriter.prototype.writeProperty = function(key, value) {
     this.writeField(key, value);
 };
 
-AdiWriter.prototype.writeField = function(key, value) {
+AdiWriter.prototype.writeField = function(key: String, value: String) {
     if (value !== undefined && value !== null) {
         this.data += "<" + key.toUpperCase() + ":" + value.length + ">";
         this.data += value;
@@ -191,7 +189,7 @@ AdiWriter.prototype.writeField = function(key, value) {
 
 }
 
-const parseName = (line) => {
+export function parseName(line: String) {
     let res = line.match(/(?<=@)[a-z]+/i);
     if (res != null) {
         return res[0];
@@ -199,7 +197,7 @@ const parseName = (line) => {
     return null;
 }
 
-const parseGrid = (line) => {
+export function parseGrid(line: String) {
     let res = line.match(/(?<=(mygrid\s+|#))[A-Z]{2}[0-9]{2}([a-z]{2})?/gi);
     if (res != null) {
         return res[0];
@@ -208,7 +206,7 @@ const parseGrid = (line) => {
 }
 
 
-const parseSTX = (line) => {
+export function parseSTX(line: String) : String {
     let res = line.match(/(?<=,)([0-9]+)?/gi);
     if (res != null) {
         return res[0];
@@ -216,7 +214,7 @@ const parseSTX = (line) => {
     return null;
 }
 
-const parseSRX = (line) => {
+export function parseSRX(line: String) : String {
     let res = line.match(/(?<=\.)([0-9]+)?/gi);
     if (res != null) {
         return res[0];
@@ -225,7 +223,7 @@ const parseSRX = (line) => {
 }
 
 
-const parseQsoComment = (line) => {
+export function parseQsoComment(line: string) {
     let res = line.match(/(?<=<).*(?=>)/);
     if (res != null) {
         return res[0].trim();
@@ -233,7 +231,7 @@ const parseQsoComment = (line) => {
     return null;
 }
 
-const parseQsoQslMsg = (line) => {
+export function parseQsoQslMsg(line: string) {
     let res = line.match(/(?<=\{).*(?=\})/);
     if (res != null) {
         return res[0];
@@ -241,7 +239,7 @@ const parseQsoQslMsg = (line) => {
     return null;
 }
 
-const parseWwffref = (line) => {
+export function parseWwffref(line: string) {
     let res = line.match(/[a-z]{1,2}ff-[0-9]{4}/i);
     if (res != null) {
         return res[0].toUpperCase();
@@ -279,7 +277,7 @@ function parseOperator(line) {
     return null;
 }
 
-function parseNick(line) {
+export function parseNick(line) {
     let nikit = /(?<=nickname ).*/.exec(line);
     if (nikit != null) {
         return nikit[0];
@@ -295,7 +293,7 @@ function parseGlobalQslMsg(line) {
     return null;
 }
 
-function parseSotaref(line) {
+export function parseSotaref(line) {
     let sotat = sotaRefRegex.exec(line);
     if (sotat != null) {
         return sotat[0].toUpperCase();
@@ -303,7 +301,7 @@ function parseSotaref(line) {
     return null;
 }
 
-function parsePotaref(line) {
+export function parsePotaref(line) {
     let potat = potaRefRegex.exec(line);
     if (potat != null) {
         return potat[0].toUpperCase();
@@ -311,10 +309,10 @@ function parsePotaref(line) {
     return null;
 }
 
-const printAdif = (jsonit, raw) => {
+export function printAdif(jsonit, raw) {
     let adiWriter = new AdiWriter("0.1");
     let outjson = jsonit;
-    let out = null;
+    let out: string;
 
     // Use CRLF for newlines for FLE compatibility
     if (!raw) {
@@ -352,7 +350,7 @@ const fileNameString = () => {
 }
 
 
-const downloadAdif = () => {
+export function downloadAdif() {
 
     const notesElem = document.getElementById('notes') as HTMLInputElement | null;
     let nootit = notesElem?.value
@@ -363,7 +361,7 @@ const downloadAdif = () => {
 
     // Generate .adi data
     let adiWriter = new AdiWriter("0.1");
-    let adiData : String = adiWriter.writeAll(jnootit);
+    let adiData : string = adiWriter.writeAll(jnootit);
 
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(adiData));
@@ -374,8 +372,7 @@ const downloadAdif = () => {
     document.body.removeChild(element);
 }
 
-
-const downloadCsv = () => {
+export function downloadCsv() {
     const nootitElem = document.getElementById('notes') as HTMLInputElement | null;
     const nootit = nootitElem?.value
     let jnootit = makeJsonArray(nootit);
@@ -391,9 +388,7 @@ const downloadCsv = () => {
     document.body.removeChild(element);
 }
 
-
-
-const downloadTxt = () => {
+export function downloadTxt() {
     const nootitElem = document.getElementById('notes') as HTMLInputElement | null
     const nootit = nootitElem?.value;
     let fil = fileNameString() + ".txt";
@@ -407,7 +402,7 @@ const downloadTxt = () => {
 }
 
 
-function flagIcon(call) {
+export function flagIcon(call) {
     for (const [prefix, flag] of Object.entries(flagmap)) {
         let rege = RegExp(`^${prefix}`, 'im');
         if (rege.test(call.split('/')[0])) {
@@ -437,7 +432,7 @@ function handleDateIncrement(line) {
 }
 
 
-const detectband = (freqString) => {
+export const detectband = (freqString) => {
     let freq = parseFloat(freqString);
     if (.1357 <= freq && freq <= .1378) { return "2190m"; }
     if (.472 <= freq && freq <=	.479) { return "630m"; }
@@ -472,7 +467,7 @@ const detectband = (freqString) => {
     return null;
 }
 
-const parseMode = (line) => {
+export function parseMode(line) {
     let moodi = null;
     modelist.forEach(it => {
         let regg = RegExp(` ${it}\\s*[0-9]*`, "gim");
@@ -528,7 +523,7 @@ function handleTime(line) {
     }
 }
 
-function parseTime(line) {
+export function parseTime(line) {
 
     let QHOUR = null;
     let QMINUTE = null;
@@ -613,7 +608,7 @@ function setCharAt(str,index,chr) {
     return str.substring(0,index) + chr + str.substring(index+1);
 }
 
-function parseCall(qsoline) {
+export function parseCall(qsoline) {
 
     let calls = callRegex.exec(qsoline);
     if (calls != null) {
@@ -633,8 +628,8 @@ const addQso = (qsoline) => {
 
     // Default to 59/59
 
-    let RSTS = null;
-    let RSTR = null;
+    let RSTS: string;
+    let RSTR: string;
     if (wsjtmodes.includes(MODE)) {
         RSTS = "-10";
         RSTR = "-10";
@@ -954,7 +949,7 @@ function fixSerials(qsos) {
     return qsos;
 }
 
-const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false) => {
+export function makeJsonArray(notestuff, interpolate = true, consecutiveserials = false) {
 
     resetData();
     let jsonarray = [];
@@ -1064,10 +1059,8 @@ const makeJsonArray = (notestuff, interpolate = true, consecutiveserials = false
         }
     }
 
-
     let interpolated = interpolate ? interpolateTimes(jsonarray) : fillTimes(jsonarray);
-    let fixedSerials = consecutiveserials ? fixSerials(interpolated) : interpolated;
-    return fixedSerials;
+    return consecutiveserials ? fixSerials(interpolated) : interpolated;
 }
 
 const handleMywwff = (line) => {
@@ -1079,7 +1072,7 @@ const handleMywwff = (line) => {
     return null;
 }
 
-const previewAdif = () => {
+export function previewAdif() {
     let newWindow = window.open("", "newWindow", "width=800, height=600");
     const notesElem = document.getElementById('notes') as HTMLInputElement | null
     let notes = notesElem?.value;
@@ -1090,17 +1083,11 @@ const previewAdif = () => {
     newWindow.document.write('<script src="main.js"></script>');
 }
 
-const notesReset = () => {
+export function notesReset() {
     if (confirm("Clear notes and lose all input data?") === true) {
         let notet = document.getElementById("notes").innerHTML = "foo";
         $("#notes").val("");
         $(".hwt-content").empty();
         //updateQsoList();
     }
-
-
 }
-
-module.exports = { parseName, parseGrid, parseComment: parseQsoQslMsg, parseQslmessage: parseQsoComment, parseWwffref, makeJsonArray,
-    downloadAdif, downloadCsv, downloadTxt, addQso, printAdif, parseCall, parseTime, parseNick, parseMode, detectband,
-    modelist, parseSotaref, parsePotaref, previewAdif, notesReset, callRegex, flagIcon, parseSTX, parseSRX }

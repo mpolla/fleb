@@ -1,5 +1,20 @@
-const { parseName, parseGrid, parseComment, parseQslmessage, printAdif, parseCall, parseTime, parseMode, parseNick, detectband, parseSTX, parseSRX } = require("./fleb");
-const {makeJsonArray, parseSotaref, parsePotaref} = require("./fleb");
+import {
+  parseName,
+  parseGrid,
+  parseQsoQslMsg,
+  printAdif,
+  parseCall,
+  parseTime,
+  parseMode,
+  parseNick,
+  detectband,
+  parseSTX,
+  parseSRX,
+  makeJsonArray,
+  parseSotaref,
+  parsePotaref,
+  parseQsoComment
+} from "./src/fleb";
 
 
 const FLE_ADIF_HEADER = "ADIF Export for Fast Log Entry by DF3CB";
@@ -72,9 +87,9 @@ test('Parse grid', () => {
 
 
 test('Parse comment', () => {
-  expect(parseComment("33 oh2cme @Matti {comment} #KP20")).toBe("comment");
-  expect(parseComment("33 oh2cme @Matti < comment > #KP20")).toBe(null);
-  expect(parseComment("33 oh2cme @Matti #KP20")).toBe(null);
+  expect(parseQsoQslMsg("33 oh2cme @Matti {comment} #KP20")).toBe("comment");
+  expect(parseQsoQslMsg("33 oh2cme @Matti < comment > #KP20")).toBe(null);
+  expect(parseQsoQslMsg("33 oh2cme @Matti #KP20")).toBe(null);
 });
 
 test('Parse mode', () => {
@@ -87,8 +102,8 @@ test('Parse mode', () => {
 });
 
 test('Parse QSL message', () => {
-  expect(parseQslmessage("33 oh2cme @Matti <jotain> #KP20")).toBe("jotain");
-  expect(parseQslmessage("33 oh2cme @Matti #KP20")).toBe(null);
+  expect(parseQsoComment("33 oh2cme @Matti <jotain> #KP20")).toBe("jotain");
+  expect(parseQsoComment("33 oh2cme @Matti #KP20")).toBe(null);
 });
 
 test('Parse SOTA reference', () => {
