@@ -19,6 +19,8 @@ const potaRefRegex = RegExp(/[a-z]{1,2}-[0-9]{4}/, 'im');
 const MY_SIG_WWFF = "WWFF";
 
 const flagmap = {
+    // Israel
+    "4z": "🇮🇱",
     // Finland
     "oh|og|oi": "🇫🇮",
     // Norway
