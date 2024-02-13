@@ -95,7 +95,7 @@ export default {
           if (this.qthgrid !== null) {
             coords.push(this.gridtokood(this.qthgrid));
           }
-          if (coords.length > 0) {
+          if (coords.length > 0 && coords[0] !== null) {
             this.$refs.map.leafletObject.fitBounds(coords, {padding: [15, 15]});
           }
         }
