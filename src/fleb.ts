@@ -38,7 +38,7 @@ const flagmap = {
     // Poland
     "s[nopqr]|3z": "🇵🇱",
     // Russia
-    "(u[a-i])|(r[a-z])": "🇷🇺",
+    "(u[a-i]|r[a-z])": "🇷🇺",
     // Ukraine
     "u[r-z]|em|eo": "🇺🇦",
     // Estonia
@@ -404,8 +404,9 @@ export function downloadTxt() {
 
 export function flagIcon(call) {
     for (const [prefix, flag] of Object.entries(flagmap)) {
-        let rege = RegExp(`^${prefix}`, 'im');
+        let rege = RegExp(`^${prefix}`, 'i');
         if (rege.test(call.split('/')[0])) {
+            console.log(rege + " matches " + call);
             return flag;
         }
     }
