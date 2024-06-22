@@ -32,7 +32,7 @@ const modeRegex = RegExp("(?<=\\b)(" + modelist.join("|") + ")(?=\\b)", "gim");
 
 const highlightRegexpName = /@[a-z]+/gim;
 
-const highlightRegexpMycall = /mycall\s+[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM|[0-9]))?/gi;
+const highlightRegexpMycall = /mycall\s+([a-zA-Z0-9]{1,3}\/)?[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z](\/(P|M|MM|AM|[0-9]))?/gi;
 const theirCallRegex = /(?<=[\s0-9]*)([a-z0-9]{1,3}\/)?\d?[a-z]{1,2}\d{1,4}[a-z]{0,6}(\d[a-z])?(\/[0-9a-z]{1,3})?/gim;
 
 
