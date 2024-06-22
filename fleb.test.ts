@@ -15,6 +15,7 @@ import {
   parsePotaref,
   parseQsoComment
 } from "./src/fleb";
+import {parse} from "@babel/core";
 
 
 const FLE_ADIF_HEADER = "ADIF Export for Fast Log Entry by DF3CB";
@@ -27,6 +28,12 @@ const fs = require("fs");
 
 test('Parse call', () => {
   expect(parseCall("on1on")).toBe("ON1ON");
+
+  // Myself in Åland islands
+  expect(parseCall("OH0/OH2CME/P")).toBe("OH0/OH2CME/P");
+  
+  // https://wiki.sral.fi/wiki/Asematunnus
+  expect(parseCall("DR06SOCCER")).toBe("DR06SOCCER")
 
   // Random LotW users from http://www.hb9bza.net/lotw/lotw.txt
   expect(parseCall("SM/DL1FWN/P")).toBe("SM/DL1FWN/P");
