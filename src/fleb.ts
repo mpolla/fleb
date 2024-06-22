@@ -629,6 +629,10 @@ export function parseCall(qsoline) {
 
 const addQso = (qsoline) => {
 
+    if (qsoline.match(/^#/)) {
+        return null
+    }
+
     // Default to 59/59
 
     let RSTS: string;
