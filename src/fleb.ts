@@ -42,7 +42,7 @@ const flagmap = {
     // Russia
     "(u[a-i]|r[a-z])": "🇷🇺",
     // Ukraine
-    "u[r-z]|em|eo": "🇺🇦",
+    "(u[r-z]|em|eo)": "🇺🇦",
     // Estonia
     "es": "🇪🇪",
     // Spain
