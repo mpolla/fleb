@@ -40,7 +40,7 @@ const flagmap = {
     // Poland
     "s[nopqr]|3z": "🇵🇱",
     // Russia
-    "(u[a-i]|r[a-z])": "🇷🇺",
+    "(u[a-i]|r[a-z1-9])": "🇷🇺",
     // Ukraine
     "(u[r-z]|em|eo)": "🇺🇦",
     // Estonia
@@ -57,6 +57,8 @@ const flagmap = {
     "yl": "🇱🇻",
     // Lithuania
     "ly": "🇱🇹",
+    // Serbia
+    "y[t-u]": "🇷🇸",
     // Romania
     "y[o-r]": "🇷🇴",
     // Czech Republic
