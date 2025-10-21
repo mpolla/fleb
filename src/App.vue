@@ -119,6 +119,8 @@ import QsoStatistics from "./components/QsoStatistics.vue";
 import QsoMap from "./components/QsoMap.vue";
 
 
+import { findDxcc  } from "@ham-core/fast-dxcc";
+
 export default {
   components: {QsoStatistics, FlebEditor, QsoTable, QsoMap},
   data() {

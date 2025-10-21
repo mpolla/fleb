@@ -1,11 +1,8 @@
 <template>
 
-
-
-
   <div class="leaflet-container flebmap">
     <!--    <l-map ref="map" :zoom="methodZoom()" :center="methodCenter()" :options="{scrollWheelZoom: false, dragging: false, zoomAnimation: true}">-->
-    <l-map ref="map" :zoom="1" :center="[35, 0]" :options="{scrollWheelZoom: false, dragging: false, zoomAnimation: true, maxZoom: 8}">
+    <l-map ref="map" :zoom="1" :center="[35, 0]" :options="{scrollWheelZoom: false, dragging: false, zoomAnimation: true, maxZoom: 8}" @ready="onMapReady">
 
       <l-tile-layer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -17,20 +14,20 @@
       <l-marker v-if="qthgrid !== null" :lat-lng="gridtokood(qthgrid)" :icon="torni"/>
 
       <!-- grid -->
-      <l-marker v-if="qsoData !== null" v-for="(kuso, index) in qsoData.filter(it => it.gridsquare !== undefined)" :lat-lng="gridtokood(kuso.gridsquare)" :icon="igoni">
+      <l-marker v-if="qsoData !== null" v-for="(qso, index) in qsoData" :lat-lng="mapCoordinates(qso)" :icon="igoni">
         <l-tooltip>
           <table class="qsodetails">
-            <tr><th>Call</th><td>{{ kuso.call }}</td></tr>
-            <tr><th>Grid</th><td>{{ kuso.gridsquare }}</td></tr>
-<!--            <tr><th>Date</th><td>{{ kuso.start.toISOString().split("T")[0] }}</td></tr>-->
-<!--            <tr><th>Time</th><td>{{ kuso.start.toISOString().split("T")[1].substring(0,5) }}</td></tr>-->
+            <tr><th>Call</th><td>{{ qso.call }}</td></tr>
+            <tr><th>Grid</th><td>{{ qso.gridsquare }}</td></tr>
+            <tr><th>DXCC</th><td>{{ findDxcc(qso.call).entity.name + " (" + findDxcc(qso.call).entity.dxcc + ")" }}</td></tr>
           </table>
         </l-tooltip>
       </l-marker>
 
-      <!-- line between mygrid and grid -->
-      <l-polyline v-if="qsoData !== null && qsoData.length > 0 && qsoData[0].my_gridsquare !== undefined" v-for="(kuso, index) in qsoData.filter(it => it.gridsquare !== undefined)" :lat-lngs="[gridtokood(kuso.my_gridsquare), gridtokood(kuso.gridsquare)]" color="#cc0000"/>
-
+      <!-- Geodesic lines between stations -->
+      <LGeodesic v-if="mapReady && qsoData !== null && qsoData.length > 0 && qsoData[0].my_gridsquare !== undefined"
+                 v-for="(qso, index) in qsoData" :latlngs="[gridtokood(qso.my_gridsquare), mapCoordinates(qso)]"
+                 color="#aa1100" :map="map.leafletObject" />
     </l-map>
 
   </div>
@@ -45,26 +42,25 @@ import "leaflet/dist/leaflet.css";
 
 import Pin from '../pin.png';
 import TorniUrl from '../signal-tower.png';
-
 import L from 'leaflet';
-
-import {
-  LMap, LTileLayer, LMarker, LPolyline, LTooltip
-
-} from "@vue-leaflet/vue-leaflet";
+import { LMap, LTileLayer, LMarker, LTooltip } from "@vue-leaflet/vue-leaflet";
+import LGeodesic from './LGeodesic.vue';
 
 import { ref, onMounted, nextTick } from 'vue'
-
-
-
+import { findDxcc  } from "@ham-core/fast-dxcc";
 
 export default {
 
-
-
-
   components: {
-    LMap, LTileLayer, LMarker, LPolyline, LTooltip
+    LMap, LTileLayer, LMarker, LTooltip, LGeodesic
+  },
+  setup() {
+    const map = ref(null);
+    const mapReady = ref(false);
+    const onMapReady = () => {
+      mapReady.value = true;
+    };
+    return { map, mapReady, onMapReady };
   },
   props: ['qsoData', 'qthgrid'],
   data() {
@@ -91,7 +87,7 @@ export default {
     qsoData: function (val) {
       this.$nextTick(() => {
         if (val !== null) {
-          let coords = val.map(it => this.gridtokood(it.gridsquare));
+          let coords = val.map(it => this.mapCoordinates(it))
           if (this.qthgrid !== null) {
             coords.push(this.gridtokood(this.qthgrid));
           }
@@ -104,7 +100,7 @@ export default {
   },
 
   methods: {
-
+    findDxcc,
     iconUrl() {
       return Pin;
     },
@@ -117,6 +113,14 @@ export default {
         }
       } else {
         return null;
+      }
+    },
+    // Get lat/long coordinates from logged grid square or approximate using DXCC entity.
+    mapCoordinates(qso) {
+      if (qso.gridsquare !== undefined) {
+        return this.gridtokood(qso.gridsquare)
+      } else {
+        return [findDxcc(qso.call).entity.lat, findDxcc(qso.call).entity.long]
       }
     }
   }
@@ -134,7 +138,6 @@ export default {
   margin-top: -4px;
 }
 
-
 @media only screen and (max-width: 600px) {
 
   .flebmap {
@@ -145,7 +148,6 @@ export default {
 
   div.leaflet-container {
     width: 100%;
-
   }
 }
 

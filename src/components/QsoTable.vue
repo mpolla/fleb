@@ -31,11 +31,8 @@
   </tr>
 </thead>
     <tbody>
-
-
         <tr v-for="(qso, index) in qsolist" :key="index">
           <td class="qsonumber">{{ index+1 }}</td>
-
           <td v-if="show.col_station_callsign">{{ qso.station_callsign }}</td>
           <td v-if="show.col_date" class="datecell">{{ formatDate(qso) }}</td>
           <td v-if="show.col_time" :class="{ notime: !qso.qsotimeknown }" class="timecell">{{ formatTime(qso) }}</td>

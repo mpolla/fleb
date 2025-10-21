@@ -12,9 +12,11 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@ham-core/fast-dxcc": "^2.7.0",
         "dateformat": "^3.0.3",
         "highlight-within-textarea": "^2.0.5",
         "jquery": "^3.6.3",
+        "leaflet.geodesic": "^2.3.0",
         "qth-locator": "^2.1.0",
         "vue": "^3.2.47",
         "vue-router": "^4.2.1"
