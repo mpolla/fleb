@@ -17,9 +17,12 @@
       <l-marker v-if="qsoData !== null" v-for="(qso, index) in qsoData" :lat-lng="mapCoordinates(qso)" :icon="igoni">
         <l-tooltip>
           <table class="qsodetails">
+            <thead></thead>
+            <tbody>
             <tr><th>Call</th><td>{{ qso.call }}</td></tr>
             <tr><th>Grid</th><td>{{ qso.gridsquare }}</td></tr>
             <tr><th>DXCC</th><td>{{ findDxcc(qso.call).entity.name + " (" + findDxcc(qso.call).entity.dxcc + ")" }}</td></tr>
+            </tbody>
           </table>
         </l-tooltip>
       </l-marker>

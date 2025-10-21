@@ -2,6 +2,8 @@
 
   <table class="flebstats">
 
+    <thead></thead>
+    <tbody>
     <tr><th class="headercol">Log start:</th><td class="timestampcell">{{ getStart(qsoData) }}</td></tr>
 
     <tr><th class="headercol">Log end:</th><td class="timestampcell">{{ getEnd(qsoData) }}</td></tr>
@@ -31,6 +33,7 @@
 
     <tr><th>Gridsquares</th><td> {{ new Set(qsoData.filter(q => q.gridsquare !== undefined).map(item => item.gridsquare.substring(0, 4))).size}}</td></tr>
     <tr><th>Gridfields</th><td> {{ new Set(qsoData.filter(q => q.gridsquare !== undefined).map(item => item.gridsquare.substring(0, 2))).size}}</td></tr>
+    </tbody>
   </table>
 
 

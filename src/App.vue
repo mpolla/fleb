@@ -45,6 +45,8 @@
               <legend>Show columns</legend>
 
               <table>
+                <thead></thead>
+                <tbody>
                 <tr><td>
                   <label><input type="checkbox" v-model="show.col_station_callsign">Station callsign</label><br>
                   <label><input type="checkbox" disabled="disabled" v-model="show.col_call">Callsign</label><br>
@@ -58,7 +60,7 @@
                   <label><input type="checkbox" v-model="show.col_stx" title="Sent serial number">STX</label><br>
                   <label><input type="checkbox" v-model="show.col_rst_rcvd">RSTr</label><br>
 
-                    </td>
+                </td>
                   <td>
 
                     <label><input type="checkbox" v-model="show.col_srx" title="Received serial number">SRX</label><br>
@@ -76,6 +78,7 @@
                     <label><input type="checkbox" v-model="show.col_my_gridsquare">My gridsquare</label><br>
                   </td>
                 </tr>
+                </tbody>
               </table>
 
             </fieldset>
@@ -95,9 +98,9 @@
 
     <div class="grid-item">
       <div class="sidebar">
-      <QsoStatistics :qsoData="kdata" v-if="show.statistics"/>
-      <QsoTable v-if="show.list" :show="show" :qsolist="kdata"/>
-        </div>
+        <QsoStatistics :qsoData="kdata" v-if="show.statistics"/>
+        <QsoTable v-if="show.list" :show="show" :qsolist="kdata"/>
+      </div>
     </div>
 
     <div class="grid-item footer">
