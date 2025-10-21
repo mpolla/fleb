@@ -14,14 +14,14 @@
       <l-marker v-if="qthgrid !== null" :lat-lng="gridtokood(qthgrid)" :icon="torni"/>
 
       <!-- grid -->
-      <l-marker v-if="qsoData !== null" v-for="(qso, index) in qsoData" :lat-lng="mapCoordinates(qso)" :icon="igoni">
+      <l-marker v-if="qsoData !== null" v-for="(qso, index) in qsoData.filter(it => mapCoordinates(it) !== null)" :lat-lng="mapCoordinates(qso)" :icon="igoni">
         <l-tooltip>
           <table class="qsodetails">
             <thead></thead>
             <tbody>
             <tr><th>Call</th><td>{{ qso.call }}</td></tr>
             <tr><th>Grid</th><td>{{ qso.gridsquare }}</td></tr>
-            <tr><th>DXCC</th><td>{{ findDxcc(qso.call).entity.name + " (" + findDxcc(qso.call).entity.dxcc + ")" }}</td></tr>
+            <tr><th>DXCC</th><td>{{ findDxcc(qso.call).entity?.name + " (" + findDxcc(qso.call).entity?.dxcc + ")" }}</td></tr>
             </tbody>
           </table>
         </l-tooltip>
@@ -29,7 +29,7 @@
 
       <!-- Geodesic lines between stations -->
       <LGeodesic v-if="mapReady && qsoData !== null && qsoData.length > 0 && qsoData[0].my_gridsquare !== undefined"
-                 v-for="(qso, index) in qsoData" :latlngs="[gridtokood(qso.my_gridsquare), mapCoordinates(qso)]"
+                 v-for="(qso, index) in qsoData.filter(it => mapCoordinates(it) !== null)" :latlngs="[gridtokood(qso.my_gridsquare), mapCoordinates(qso)]"
                  color="#aa1100" :map="map.leafletObject" />
     </l-map>
 
@@ -123,7 +123,13 @@ export default {
       if (qso.gridsquare !== undefined) {
         return this.gridtokood(qso.gridsquare)
       } else {
-        return [findDxcc(qso.call).entity.lat, findDxcc(qso.call).entity.long]
+
+        let dxcc = findDxcc(qso.call)?.entity
+        if (dxcc === undefined) {
+          return null
+        } else {
+          return [dxcc.lat, dxcc.long]
+        }
       }
     }
   }
