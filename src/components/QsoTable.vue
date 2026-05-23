@@ -131,7 +131,7 @@ tbody tr:nth-child(odd) {
 
 
 <script lang="js">
-import { flagIcon } from "../fleb";
+import { flagIcon } from "../flags";
 
 export default {
   props: [ 'qsolist', 'show' ],

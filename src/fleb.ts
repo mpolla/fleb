@@ -18,75 +18,6 @@ const potaRefRegex = RegExp(/[a-z]{1,2}-[0-9]{4}/, 'im');
 
 const MY_SIG_WWFF = "WWFF";
 
-const flagmap = {
-    // Israel
-    "4z": "🇮🇱",
-    // Finland
-    "oh|og|oi": "🇫🇮",
-    // Norway
-    "la|ln": "🇳🇴",
-    // Italy
-    "i[a-z]?": "🇮🇹",
-    // Denmark
-    "oz": "🇩🇰",
-    // Belgium
-    "o[nopqrst]": "🇧🇪",
-    // Slovenia
-    "s5": "🇸🇮",
-    // France
-    "f[abcdef]|tm": "🇫🇷",
-    // Sweden
-    "s[a-m]": "🇸🇪",
-    // Poland
-    "s[nopqr]|3z": "🇵🇱",
-    // Russia
-    "(u[a-i]|r[a-z1-9])": "🇷🇺",
-    // Ukraine
-    "(u[r-z]|em|eo)": "🇺🇦",
-    // Estonia
-    "es": "🇪🇪",
-    // Spain
-    "e[a-h]": "🇪🇸",
-    // Germany
-    "d[a-m]": "🇩🇪",
-    // Crozet
-    "ft8w": "🇹🇫",
-    // The Netherlands
-    "p[abdei]": "🇳🇱",
-    // Latvia
-    "yl": "🇱🇻",
-    // Lithuania
-    "ly": "🇱🇹",
-    // Serbia
-    "y[t-u]": "🇷🇸",
-    // Romania
-    "y[o-r]": "🇷🇴",
-    // Czech Republic
-    "o[kl]": "🇨🇿",
-    // Slovak Republic
-    "om": "🇸🇰",
-    // Portugal
-    "ct": "🇵🇹",
-    // USA
-    "k|w|n|a[a-k]": "🇺🇸",
-    // Canada
-    "v[ecoy]|ci": "🇨🇦",
-    // Hungary
-    "h[ag]": "🇭🇺",
-    // France
-    "f[abcdef]?|tm": "🇫🇷",
-    // Bulgaria
-    "lz": "🇧🇬",
-    // England
-    "g": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-    // Austria
-    "oe": "🇦🇹",
-    // Croatia
-    "9a": "🇭🇷",
-    // Switzerland
-    "hb": "🇨🇭"
-};
-
 
 // Originally from https://www.npmjs.com/package/adif
 let AdiWriter = function(programversion: String) {
@@ -405,17 +336,6 @@ export function downloadTxt() {
     document.body.removeChild(element);
 }
 
-
-export function flagIcon(call) {
-    for (const [prefix, flag] of Object.entries(flagmap)) {
-        let rege = RegExp(`^${prefix}`, 'i');
-        if (rege.test(call.split('/')[0])) {
-            console.log(rege + " matches " + call);
-            return flag;
-        }
-    }
-    return "&nbsp;&nbsp;&nbsp;";
-}
 
 function handleDate(line) {
 

@@ -15,6 +15,7 @@ import {
   parsePotaref,
   parseQsoComment
 } from "./src/fleb";
+import { flagIcon } from "./src/flags";
 import {parse} from "@babel/core";
 
 
@@ -141,6 +142,22 @@ test('Parse contest serial numbers', () => {
 
 test('Parse nickname', () => {
   expect(parseNick("nickname foo")).toBe("foo")
+})
+
+
+test('flagIcon', () => {
+  expect(flagIcon("OH2CME")).toBe("🇫🇮");
+  // Stroke-prefix Aland override (regression fix vs old split('/')[0] behaviour)
+  expect(flagIcon("OH0/OH2CME/P")).toBe("🇦🇽");
+  // Stroke-prefix Sweden
+  expect(flagIcon("SM/OH2CME")).toBe("🇸🇪");
+  // England subdivision flag (regional-indicator tag sequence)
+  expect(flagIcon("G0XYZ")).toBe("🏴󠁧󠁢󠁥󠁮󠁧󠁿");
+  expect(flagIcon("K1ABC")).toBe("🇺🇸");
+  expect(flagIcon("JA1AB")).toBe("🇯🇵");
+  // No DXCC match
+  expect(flagIcon("12345")).toBe("&nbsp;&nbsp;&nbsp;");
+  expect(flagIcon("")).toBe("&nbsp;&nbsp;&nbsp;");
 })
 
 
