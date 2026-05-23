@@ -69,7 +69,6 @@ export default {
   data() {
     return {
       adifLabels: { call: "Call sign"},
-      map: null,
       zoom: 2,
       igoni: L.icon({
         iconUrl: Pin,
