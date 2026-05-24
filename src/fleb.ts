@@ -443,7 +443,7 @@ function handleTime(line) {
             MINUTE = timedata.substring(2,4);
             FREQ_SET_ON_CURRENT_ROW = true;
         } else {
-            console.log("Error: Can't parse time from " + timedata[1]);
+            console.log("Error: Can't parse time from " + timedata);
         }
     }
 }
@@ -501,7 +501,7 @@ export function parseTime(line) {
             MINUTE = QMINUTE;
         }
         else {
-            console.log("Error: Can't parse time from " + timedata[1]);
+            console.log("Error: Can't parse time from " + timedata);
         }
 
         return [QHOUR, QMINUTE];
@@ -771,10 +771,6 @@ const addQso = (qsoline) => {
     }
 
     if (MYGRID != null) {
-        uu.my_gridsquare = MYGRID;
-    }
-
-    if (MYGRID != null && MYSOTA == null) {
         uu.my_gridsquare = MYGRID;
     }
 
