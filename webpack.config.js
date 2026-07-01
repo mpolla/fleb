@@ -19,11 +19,6 @@ module.exports = (env, argv) => {
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
-        new webpack.ProvidePlugin({
-            $: require.resolve('jquery'),
-            jQuery: require.resolve('jquery')
-        }),
-
         new webpack.DefinePlugin({
             __VUE_OPTIONS_API__: true,
             __VUE_PROD_DEVTOOLS__: false,
@@ -48,7 +43,7 @@ module.exports = (env, argv) => {
             swDest: 'service-worker.js',
             clientsClaim: true,
             skipWaiting: true,
-            // main.js bundles Vue + Leaflet + jQuery and exceeds the 2 MiB default.
+            // main.js bundles Vue + Leaflet and exceeds the 2 MiB default.
             maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
             // SPA fallback: unknown routes serve the app shell from cache.
             navigateFallback: '/fleb/index.html',

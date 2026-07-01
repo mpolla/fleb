@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from "vue-router";
 import App from './App.vue';
 
-import { highlightWithinTextarea } from "highlight-within-textarea";
+import { highlightWithinTextarea } from "./highlighter";
 
 import Favicon from 'favicon.ico';
 
@@ -34,8 +34,6 @@ if (__PROD__ && 'serviceWorker' in navigator) {
     });
   });
 }
-
-require("highlight-within-textarea");
 
 const highlightRegexGrid = /(mygrid |#)[a-z]{2}[0-9]{2}([a-z]{2})?/gim;
 
@@ -68,7 +66,8 @@ const regexSerial = /(?<=\s*)[,\.][0-9]+(?=\s)/gim;
 import './style.css';
 import './jquery.highlight-within-textarea.css';
 
-(<any>$('#notes')).highlightWithinTextarea({
+const notesEl = document.getElementById('notes') as HTMLTextAreaElement | null;
+if (notesEl) highlightWithinTextarea(notesEl, {
 
     highlight: [
         {

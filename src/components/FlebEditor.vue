@@ -81,10 +81,10 @@ export default {
         return;
       }
 
-      let notes = $('#notes');
-      let cursorPos = notes.prop('selectionStart');
+      let notes = this.$refs.noutti;
+      let cursorPos = notes.selectionStart;
       let newlinePos = cursorPos;
-      let v = notes.val();
+      let v = notes.value;
 
       // Empty line, no timestamp needed
       if (/\n/.test(v[cursorPos]) === true && /\n/.test(v[cursorPos-1]) === true) {
@@ -107,9 +107,9 @@ export default {
       let textAfter  = v.substring(newlinePos+1, v.length);
       let now = new Date();
       let timeString = now.getUTCHours().toString().padStart(2, '0') + "" + now.getUTCMinutes().toString().padStart(2, '0') +  " ";
-      notes.val(textBefore + "\n" + timeString + textAfter);
-      notes.prop('selectionStart', cursorPos+timeString.length);
-      notes.prop('selectionEnd', cursorPos+timeString.length);
+      notes.value = textBefore + "\n" + timeString + textAfter;
+      notes.selectionStart = cursorPos+timeString.length;
+      notes.selectionEnd = cursorPos+timeString.length;
     },
 
     getUTCDate() {
@@ -126,17 +126,17 @@ export default {
     kbdShortcut(e) {
       // F1: insert "date yyyy-mm-dd"
       if (e.keyCode === 112) {
-        let notes = $('#notes');
-        let cursorPos = notes.prop('selectionStart');
-        let v = notes.val();
-        notes.val(v.substring(0,  cursorPos) + "date " + this.getUTCDate() + " " + v.substring(cursorPos, v.length));
+        let notes = this.$refs.noutti;
+        let cursorPos = notes.selectionStart;
+        let v = notes.value;
+        notes.value = v.substring(0,  cursorPos) + "date " + this.getUTCDate() + " " + v.substring(cursorPos, v.length);
       }
       // F2: insert "hhmm"
       if (e.keyCode === 113) {
-        let notes = $('#notes');
-        let cursorPos = notes.prop('selectionStart');
-        let v = notes.val();
-        notes.val(v.substring(0,  cursorPos) +  this.getUTCTime() + " " + v.substring(cursorPos, v.length));
+        let notes = this.$refs.noutti;
+        let cursorPos = notes.selectionStart;
+        let v = notes.value;
+        notes.value = v.substring(0,  cursorPos) +  this.getUTCTime() + " " + v.substring(cursorPos, v.length);
       }
     }
   }

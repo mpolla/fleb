@@ -1010,9 +1010,11 @@ export function previewAdif() {
 
 export function notesReset() {
     if (confirm("Clear notes and lose all input data?") === true) {
-        let notet = document.getElementById("notes").innerHTML = "foo";
-        $("#notes").val("");
-        $(".hwt-content").empty();
-        //updateQsoList();
+        const notes = document.getElementById("notes") as HTMLTextAreaElement | null;
+        if (notes) {
+            notes.value = "";
+            // Sync the Vue v-model and the highlighter backdrop off the cleared value.
+            notes.dispatchEvent(new Event("input", { bubbles: true }));
+        }
     }
 }
