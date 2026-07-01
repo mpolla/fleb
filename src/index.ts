@@ -24,6 +24,17 @@ const app = createApp(App);
 app.use(router);
 app.mount('#app')
 
+// Register the Workbox-generated service worker (production builds only; see
+// webpack.config.js). Enables offline logging - the whole point in the field.
+declare const __PROD__: boolean;
+if (__PROD__ && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/fleb/service-worker.js').catch((err) => {
+      console.error('Service worker registration failed:', err);
+    });
+  });
+}
+
 require("highlight-within-textarea");
 
 const highlightRegexGrid = /(mygrid |#)[a-z]{2}[0-9]{2}([a-z]{2})?/gim;

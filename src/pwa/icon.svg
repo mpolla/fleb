@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="FLEB">
+  <title>FLEB</title>
+  <rect width="512" height="512" rx="96" fill="#1a5276"/>
+  <g fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <!-- antenna mast -->
+    <path d="M256 128 L200 400 M256 128 L312 400"/>
+    <!-- cross braces -->
+    <path d="M238 216 L274 216 M228 280 L284 280 M216 344 L296 344"/>
+    <!-- mast tip -->
+    <path d="M256 128 L256 96"/>
+  </g>
+  <!-- radiating signal arcs -->
+  <g fill="none" stroke="#5dade2" stroke-width="16" stroke-linecap="round">
+    <path d="M300 100 a70 70 0 0 1 0 56"/>
+    <path d="M330 82 a112 112 0 0 1 0 92"/>
+    <path d="M212 100 a70 70 0 0 0 0 56"/>
+    <path d="M182 82 a112 112 0 0 0 0 92"/>
+  </g>
+  <!-- ground line + feet -->
+  <path d="M176 400 L336 400" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="256" cy="96" r="14" fill="#f1c40f"/>
+</svg>

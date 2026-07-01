@@ -3,6 +3,7 @@
         "baseUrl": ":",
         "outDir": "./dist/",
         "noImplicitAny": false,
+        "skipLibCheck": true,
         "target": "es2016",
         "lib": [
             "es2021",
