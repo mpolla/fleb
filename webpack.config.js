@@ -22,7 +22,10 @@ module.exports = (env, argv) => {
         new webpack.DefinePlugin({
             __VUE_OPTIONS_API__: true,
             __VUE_PROD_DEVTOOLS__: false,
-            __PROD__: JSON.stringify(isProduction)
+            __PROD__: JSON.stringify(isProduction),
+            // Single source of truth for the app version: package.json. Shown
+            // in the footer; bumped by release-please on each release.
+            __APP_VERSION__: JSON.stringify(require('./package.json').version)
         }),
 
         // Static PWA files served verbatim under the /fleb/ publicPath.

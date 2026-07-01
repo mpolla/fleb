@@ -104,7 +104,7 @@
     </div>
 
     <div class="grid-item footer">
-      <a href="https://github.com/mpolla/fleb/">Project on GitHub</a>
+      FLEB v{{ version }} &middot; <a href="https://github.com/mpolla/fleb/">Project on GitHub</a>
     </div>
 
   </div>
@@ -158,6 +158,9 @@ export default {
       zoom: 2,
       kdata: [],
       qthgrid: null,
+
+      // Build-time app version (webpack DefinePlugin), shown in the footer.
+      version: __APP_VERSION__,
 
 
       realtimemode: false,
