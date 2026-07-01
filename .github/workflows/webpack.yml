@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  pull_request:
 
 permissions:
   contents: write
@@ -14,31 +15,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
       - name: Install and Build
         run: |
           npm install
           npm run build
-          
+
 
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
       - name: Test
         run: |
           npm install
           npm run test
-  
+
   deploy:
+    # Only deploy real pushes to master; PR builds stop after build + test.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
       - name: Build
         run: |
           npm install
@@ -49,4 +64,3 @@ jobs:
           folder: dist
           git-config-name: Github Actions
           git-config-email: <>
-

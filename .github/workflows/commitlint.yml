@@ -1,0 +1,20 @@
+name: Commitlint
+
+# Validates that every commit in a PR follows Conventional Commits.
+# Direct pushes to master bypass this (no PR), so keep to the feature-branch
+# -> PR flow if you want the check to actually run.
+on:
+  pull_request:
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    # Skip release-please's own bot branch to avoid friction on release PRs.
+    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lint PR commits
+        uses: wagoid/commitlint-github-action@v6
