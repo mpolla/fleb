@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="FLEB">
+  <title>FLEB</title>
+  <!-- full-bleed background so any mask shape stays filled -->
+  <rect width="512" height="512" fill="#1a5276"/>
+  <!-- content scaled to ~72% and centred to stay inside the maskable safe zone -->
+  <g transform="translate(256 256) scale(0.72) translate(-256 -256)">
+    <g fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M256 128 L200 400 M256 128 L312 400"/>
+      <path d="M238 216 L274 216 M228 280 L284 280 M216 344 L296 344"/>
+      <path d="M256 128 L256 96"/>
+    </g>
+    <g fill="none" stroke="#5dade2" stroke-width="16" stroke-linecap="round">
+      <path d="M300 100 a70 70 0 0 1 0 56"/>
+      <path d="M330 82 a112 112 0 0 1 0 92"/>
+      <path d="M212 100 a70 70 0 0 0 0 56"/>
+      <path d="M182 82 a112 112 0 0 0 0 92"/>
+    </g>
+    <path d="M176 400 L336 400" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+    <circle cx="256" cy="96" r="14" fill="#f1c40f"/>
+  </g>
+</svg>
