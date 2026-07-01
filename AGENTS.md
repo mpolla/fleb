@@ -53,3 +53,21 @@ FLEB is an installable, offline-capable PWA. The pieces:
 - Variable and function names mix English and Finnish (`nootit` = notes, `kdata`, `lataileadif` = "download ADIF"). This is intentional — don't rename them as cleanup.
 - TypeScript is configured loosely (`noImplicitAny: false`). The codebase is effectively typed JS in many places; don't introduce strict-mode breakage without intent.
 - The webpack `publicPath` is hard-coded to `/fleb/` for GitHub Pages. Changing it breaks the deployed build.
+
+## Development cycle
+
+### Commit messages
+This repo uses **English [Conventional Commits](https://www.conventionalcommits.org/) 1.0.0**. This deliberately **overrides the global `~/.claude/CLAUDE.md` Finnish "tehty"-form rule**, and the Finnish `git-commit` skill is **not** used here — commit in English.
+
+- Format: `<type>[(scope)][!]: <english imperative description>`, e.g. `feat: add PWA offline support`, `fix(parser): correct time parse index`.
+- Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `perf`, `test`, `build`, `ci`, `style`, `revert`.
+- Scope optional, kebab-case (e.g. `parser`, `deps`, `map`). `!` after type/scope marks a breaking change (drives a major bump).
+- Subject ≤50 chars (hard limit 72). Body wraps at 72, bullets separated by a blank line. **No `Co-Authored-By` trailer.**
+- `feat` → minor bump, `fix` → patch bump, `feat!`/`fix!` (or `BREAKING CHANGE:` footer) → major bump. Other types don't bump the version.
+- `commitlint` (config-conventional) validates PR commits in CI (`.github/workflows/commitlint.yml`). It only runs on **pull requests**, so use a feature-branch → PR → merge flow for the check to fire.
+
+### Versioning & releases
+- Versioning is **SemVer**, single source of truth = `package.json` `version`. That version is injected into the app at build time via webpack `DefinePlugin` (`__APP_VERSION__`) and shown in the footer.
+- Releases are automated by **release-please** (`.github/workflows/release-please.yml`, config in `release-please-config.json` + `.release-please-manifest.json`). On pushes to `master` it maintains a "release PR" that bumps `package.json` and regenerates `CHANGELOG.md`; merging that PR tags `vX.Y.Z` and cuts a GitHub Release.
+- **Do not hand-edit `CHANGELOG.md` or the version in `package.json`** — release-please owns both. `bootstrap-sha` in the config pins the start of tracked history, so only commits after adoption appear in the changelog.
+- CI (`.github/workflows/webpack.yml`) runs build + test on every push and PR; the gh-pages deploy job is gated to `push` on `master` only. Node is pinned via `.nvmrc`.
